@@ -25,6 +25,7 @@ const statusColors = {
   processing: "bg-yellow-500",
   confirmed: "bg-purple-500",
   cancelled: "bg-red-500",
+  returned: "bg-orange-500",
 };
 
 const Orders = () => {

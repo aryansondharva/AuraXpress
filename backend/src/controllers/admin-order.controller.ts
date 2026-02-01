@@ -1,13 +1,18 @@
 import { Response } from 'express';
 import { OrderService } from '../services/order.service';
 import { OrderRepository } from '../repositories/order.repository';
+import { NotificationService } from '../services/notification.service';
 import { AuthRequest } from '../middleware/auth.middleware';
 
 export class AdminOrderController {
+  private notificationService: NotificationService;
+
   constructor(
     private orderService: OrderService,
     private orderRepository: OrderRepository
-  ) {}
+  ) {
+    this.notificationService = new NotificationService();
+  }
 
   getAllOrders = async (_req: AuthRequest, res: Response) => {
     try {
@@ -77,6 +82,10 @@ export class AdminOrderController {
 
       // In production, check if user has admin role here
 
+      // Get current order before update to track old status
+      const currentOrder = await this.orderRepository.getOrderByIdAdmin(orderId);
+      const oldStatus = currentOrder?.status || 'unknown';
+
       const order = await this.orderService.updateOrderStatus(orderId, status);
 
       if (!order) {
@@ -88,6 +97,24 @@ export class AdminOrderController {
       }
 
       console.log('✅ Admin: Order status updated:', order.orderNumber, 'to', status);
+
+      // Get full order with items for notification
+      const fullOrder = await this.orderRepository.getOrderByIdAdmin(orderId);
+
+      // Send status update notifications to customer
+      if (fullOrder) {
+        try {
+          await this.notificationService.sendOrderStatusUpdateEmail(fullOrder, oldStatus);
+          await this.notificationService.sendOrderSMS(
+            fullOrder.shippingPhone,
+            fullOrder.orderNumber,
+            status
+          );
+        } catch (notifError) {
+          console.error('⚠️ Failed to send notifications:', notifError);
+        }
+      }
+
       res.status(200).json({
         success: true,
         message: 'Order status updated successfully',

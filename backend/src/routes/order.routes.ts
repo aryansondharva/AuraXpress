@@ -27,6 +27,9 @@ router.get('/:orderId', orderController.getOrderById);
 // Cancel order (user can cancel their own order)
 router.patch('/:orderId/cancel', orderController.cancelOrder);
 
+// Return order (user can return delivered orders)
+router.patch('/:orderId/return', orderController.returnOrder);
+
 // Update order status (admin only in production)
 router.patch('/:orderId/status', orderController.updateOrderStatus);
 

@@ -44,6 +44,7 @@ const statusColors = {
   shipped: "bg-purple-500",
   delivered: "bg-emerald-500",
   cancelled: "bg-red-500",
+  returned: "bg-orange-500",
 };
 
 const statusLabels = {
@@ -52,6 +53,7 @@ const statusLabels = {
   shipped: "Shipped",
   delivered: "Delivered",
   cancelled: "Cancelled",
+  returned: "Returned",
 };
 
 const AdminOrders = () => {
@@ -136,6 +138,7 @@ const AdminOrders = () => {
       shipped: orders.filter((o) => o.status === "shipped").length,
       delivered: orders.filter((o) => o.status === "delivered").length,
       cancelled: orders.filter((o) => o.status === "cancelled").length,
+      returned: orders.filter((o) => o.status === "returned").length,
     };
   };
 
@@ -170,7 +173,7 @@ const AdminOrders = () => {
         </div>
 
         {/* Stats Cards */}
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-7 gap-4">
           <Card>
             <CardContent className="pt-6">
               <div className="text-2xl font-bold">{stats.total}</div>
@@ -207,6 +210,12 @@ const AdminOrders = () => {
               <p className="text-xs text-muted-foreground">Cancelled</p>
             </CardContent>
           </Card>
+          <Card>
+            <CardContent className="pt-6">
+              <div className="text-2xl font-bold text-orange-500">{stats.returned}</div>
+              <p className="text-xs text-muted-foreground">Returned</p>
+            </CardContent>
+          </Card>
         </div>
 
         {/* Filters */}
@@ -234,6 +243,7 @@ const AdminOrders = () => {
                   <SelectItem value="shipped">Shipped</SelectItem>
                   <SelectItem value="delivered">Delivered</SelectItem>
                   <SelectItem value="cancelled">Cancelled</SelectItem>
+                  <SelectItem value="returned">Returned</SelectItem>
                 </SelectContent>
               </Select>
             </div>
@@ -350,6 +360,7 @@ const AdminOrders = () => {
                   <SelectItem value="shipped">Shipped</SelectItem>
                   <SelectItem value="delivered">Delivered</SelectItem>
                   <SelectItem value="cancelled">Cancelled</SelectItem>
+                  <SelectItem value="returned">Returned</SelectItem>
                 </SelectContent>
               </Select>
             </div>

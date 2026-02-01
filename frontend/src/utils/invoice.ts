@@ -5,9 +5,33 @@ import { Order } from '@/services/order.service';
 export const generateInvoice = (order: Order) => {
   const doc = new jsPDF();
   
-  // Helper function to format currency properly
-  const formatCurrency = (amount: number): string => {
-    return `₹${amount.toFixed(2)}`;
+  // Debug: Log the order data to see what we're receiving
+  console.log('📄 Generating invoice for order:', order.orderNumber);
+  console.log('Order data:', {
+    subtotal: order.subtotal,
+    tax: order.tax,
+    shippingCost: order.shippingCost,
+    total: order.total,
+    items: order.items.map(item => ({
+      name: item.productName,
+      price: item.price,
+      quantity: item.quantity,
+      subtotal: item.subtotal
+    }))
+  });
+  
+  // Helper function to format currency properly - ensures number conversion
+  const formatCurrency = (amount: number | string): string => {
+    const numAmount = typeof amount === 'string' ? parseFloat(amount) : amount;
+    if (isNaN(numAmount)) return 'Rs. 0.00';
+    // Use Rs. instead of ₹ symbol to avoid font encoding issues in PDF
+    return `Rs. ${numAmount.toFixed(2)}`;
+  };
+  
+  // Helper to safely parse numbers
+  const parseNumber = (value: number | string): number => {
+    const num = typeof value === 'string' ? parseFloat(value) : value;
+    return isNaN(num) ? 0 : num;
   };
   
   // Page margins
@@ -83,12 +107,21 @@ export const generateInvoice = (order: Order) => {
   doc.text(`Status: ${order.paymentStatus.toUpperCase()}`, 120, 71);
   
   // Order Items Table
-  const tableData = order.items.map(item => [
-    item.productName,
-    item.quantity.toString(),
-    formatCurrency(item.price),
-    formatCurrency(item.subtotal)
-  ]);
+  const tableData = order.items.map(item => {
+    const price = parseNumber(item.price);
+    const subtotal = parseNumber(item.subtotal);
+    
+    console.log(`Item: ${item.productName}, Price: ${price}, Qty: ${item.quantity}, Subtotal: ${subtotal}`);
+    
+    return [
+      item.productName,
+      item.quantity.toString(),
+      formatCurrency(price),
+      formatCurrency(subtotal)
+    ];
+  });
+  
+  console.log('Table data formatted:', tableData);
   
   autoTable(doc, {
     startY: 110,
@@ -107,16 +140,17 @@ export const generateInvoice = (order: Order) => {
       textColor: [50, 50, 50]
     },
     columnStyles: {
-      0: { cellWidth: 90, halign: 'left' },
-      1: { cellWidth: 25, halign: 'center' },
-      2: { cellWidth: 35, halign: 'right' },
-      3: { cellWidth: 35, halign: 'right' }
+      0: { cellWidth: 85, halign: 'left' },
+      1: { cellWidth: 20, halign: 'center' },
+      2: { cellWidth: 37, halign: 'right' },
+      3: { cellWidth: 38, halign: 'right' }
     },
     margin: { left: leftMargin, right: leftMargin },
     styles: {
       lineColor: [200, 200, 200],
       lineWidth: 0.1
-    }
+    },
+    tableWidth: 'auto'
   });
   
   // Get the final Y position after the table
@@ -126,6 +160,12 @@ export const generateInvoice = (order: Order) => {
   const summaryStartY = finalY + 15;
   const labelX = 130;
   const valueX = rightMargin;
+  
+  // Parse all amounts to ensure they're numbers
+  const subtotal = parseNumber(order.subtotal);
+  const shippingCost = parseNumber(order.shippingCost);
+  const tax = parseNumber(order.tax);
+  const total = parseNumber(order.total);
   
   // Summary box background
   doc.setFillColor(250, 250, 250);
@@ -137,12 +177,12 @@ export const generateInvoice = (order: Order) => {
   
   // Subtotal
   doc.text('Subtotal:', labelX, summaryStartY);
-  doc.text(formatCurrency(order.subtotal), valueX, summaryStartY, { align: 'right' });
+  doc.text(formatCurrency(subtotal), valueX, summaryStartY, { align: 'right' });
   
   // Shipping
   doc.text('Shipping:', labelX, summaryStartY + 7);
   doc.text(
-    order.shippingCost === 0 ? 'Free' : formatCurrency(order.shippingCost),
+    shippingCost === 0 ? 'Free' : formatCurrency(shippingCost),
     valueX,
     summaryStartY + 7,
     { align: 'right' }
@@ -150,7 +190,7 @@ export const generateInvoice = (order: Order) => {
   
   // Tax
   doc.text('Tax (GST):', labelX, summaryStartY + 14);
-  doc.text(formatCurrency(order.tax), valueX, summaryStartY + 14, { align: 'right' });
+  doc.text(formatCurrency(tax), valueX, summaryStartY + 14, { align: 'right' });
   
   // Divider line before total
   doc.setDrawColor(59, 130, 246);
@@ -162,7 +202,7 @@ export const generateInvoice = (order: Order) => {
   doc.setFontSize(13);
   doc.setTextColor(0, 0, 0);
   doc.text('TOTAL:', labelX, summaryStartY + 27);
-  doc.text(formatCurrency(order.total), valueX, summaryStartY + 27, { align: 'right' });
+  doc.text(formatCurrency(total), valueX, summaryStartY + 27, { align: 'right' });
   
   // Terms and Conditions
   const termsY = summaryStartY + 45;

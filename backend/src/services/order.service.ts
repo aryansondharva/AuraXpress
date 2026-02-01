@@ -29,7 +29,7 @@ export class OrderService {
   }
 
   async updateOrderStatus(orderId: string, status: string) {
-    const validStatuses = ['processing', 'confirmed', 'shipped', 'delivered', 'cancelled'];
+    const validStatuses = ['processing', 'confirmed', 'shipped', 'delivered', 'cancelled', 'returned'];
     
     if (!validStatuses.includes(status)) {
       throw new Error('Invalid order status');

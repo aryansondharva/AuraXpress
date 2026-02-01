@@ -32,7 +32,7 @@ export interface Order {
   id: string;
   userId: string;
   orderNumber: string;
-  status: 'processing' | 'confirmed' | 'shipped' | 'delivered' | 'cancelled';
+  status: 'processing' | 'confirmed' | 'shipped' | 'delivered' | 'cancelled' | 'returned';
   subtotal: number;
   shippingCost: number;
   tax: number;
@@ -99,5 +99,22 @@ export const orderService = {
   async cancelOrder(orderId: string): Promise<Order> {
     const response = await api.patch(`/api/orders/${orderId}/cancel`);
     return response.data.data;
+  },
+
+  async returnOrder(orderId: string, reason: string, comments?: string): Promise<Order> {
+    console.log('📡 orderService.returnOrder called');
+    console.log('Order ID:', orderId);
+    console.log('Reason:', reason);
+    console.log('Comments:', comments);
+    
+    try {
+      const response = await api.patch(`/api/orders/${orderId}/return`, { reason, comments });
+      console.log('✅ Return API response:', response.data);
+      return response.data.data;
+    } catch (error: any) {
+      console.error('❌ Return API error:', error);
+      console.error('Error response:', error.response?.data);
+      throw error;
+    }
   }
 };

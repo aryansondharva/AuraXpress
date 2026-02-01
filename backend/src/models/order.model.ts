@@ -2,7 +2,7 @@ export interface Order {
   id: string;
   userId: string;
   orderNumber: string;
-  status: 'processing' | 'confirmed' | 'shipped' | 'delivered' | 'cancelled';
+  status: 'processing' | 'confirmed' | 'shipped' | 'delivered' | 'cancelled' | 'returned';
   subtotal: number;
   shippingCost: number;
   tax: number;

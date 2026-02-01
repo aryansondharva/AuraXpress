@@ -1,9 +1,18 @@
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { useParams, Link, useNavigate } from "react-router-dom";
-import { ArrowLeft, Package, Truck, CheckCircle, MapPin, X, Download } from "lucide-react";
+import { ArrowLeft, Package, Truck, CheckCircle, MapPin, X, Download, RotateCcw } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { Textarea } from "@/components/ui/textarea";
+import { Label } from "@/components/ui/label";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -24,6 +33,7 @@ const statusConfig = {
   shipped: { color: "bg-blue-500", label: "Shipped" },
   delivered: { color: "bg-green-500", label: "Delivered" },
   cancelled: { color: "bg-red-500", label: "Cancelled" },
+  returned: { color: "bg-orange-500", label: "Returned" },
 };
 
 const OrderDetail = () => {
@@ -33,6 +43,10 @@ const OrderDetail = () => {
   const [loading, setLoading] = useState(true);
   const [showCancelDialog, setShowCancelDialog] = useState(false);
   const [cancelling, setCancelling] = useState(false);
+  const [showReturnDialog, setShowReturnDialog] = useState(false);
+  const [returning, setReturning] = useState(false);
+  const [returnReason, setReturnReason] = useState("");
+  const [returnComments, setReturnComments] = useState("");
 
   useEffect(() => {
     if (id) {
@@ -94,6 +108,50 @@ const OrderDetail = () => {
       toast.error("Failed to download invoice", {
         description: "Please try again later"
       });
+    }
+  };
+
+  const canReturnOrder = (status: string, updatedAt: string) => {
+    if (status !== 'delivered') return false;
+    
+    // Check if within 7 days of delivery
+    const deliveryDate = new Date(updatedAt);
+    const currentDate = new Date();
+    const daysSinceDelivery = Math.floor((currentDate.getTime() - deliveryDate.getTime()) / (1000 * 60 * 60 * 24));
+    
+    return daysSinceDelivery <= 7;
+  };
+
+  const handleReturnClick = () => {
+    setShowReturnDialog(true);
+  };
+
+  const handleReturnConfirm = async () => {
+    if (!order) return;
+
+    if (!returnReason) {
+      toast.error("Please select a return reason");
+      return;
+    }
+
+    try {
+      setReturning(true);
+      await orderService.returnOrder(order.id, returnReason, returnComments);
+      toast.success("Return request submitted successfully", {
+        description: "Refund will be processed within 5-7 business days"
+      });
+      
+      // Refresh order data
+      await fetchOrder(order.id);
+      setShowReturnDialog(false);
+      setReturnReason("");
+      setReturnComments("");
+    } catch (error: any) {
+      toast.error("Failed to submit return request", {
+        description: error.response?.data?.message || "Please try again"
+      });
+    } finally {
+      setReturning(false);
     }
   };
 
@@ -442,9 +500,15 @@ const OrderDetail = () => {
                 <Download className="mr-2 h-4 w-4" />
                 Download Invoice
               </Button>
-              {order.status === "delivered" && (
-                <Button variant="outline" className="w-full">
-                  Return Order
+              {canReturnOrder(order.status, order.updatedAt) && (
+                <Button 
+                  variant="outline" 
+                  className="w-full"
+                  onClick={handleReturnClick}
+                  disabled={returning}
+                >
+                  <RotateCcw className="mr-2 h-4 w-4" />
+                  {returning ? "Processing..." : "Return Order"}
                 </Button>
               )}
             </motion.div>
@@ -470,6 +534,56 @@ const OrderDetail = () => {
                 className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
               >
                 {cancelling ? "Cancelling..." : "Yes, Cancel Order"}
+              </AlertDialogAction>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialog>
+
+        {/* Return Order Dialog */}
+        <AlertDialog open={showReturnDialog} onOpenChange={setShowReturnDialog}>
+          <AlertDialogContent className="max-w-md">
+            <AlertDialogHeader>
+              <AlertDialogTitle>Return Order</AlertDialogTitle>
+              <AlertDialogDescription>
+                Please provide a reason for returning order <strong>{order.orderNumber}</strong>. 
+                Returns are accepted within 7 days of delivery.
+              </AlertDialogDescription>
+            </AlertDialogHeader>
+            <div className="space-y-4 py-4">
+              <div className="space-y-2">
+                <Label htmlFor="return-reason">Return Reason *</Label>
+                <Select value={returnReason} onValueChange={setReturnReason}>
+                  <SelectTrigger id="return-reason">
+                    <SelectValue placeholder="Select a reason" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="defective">Product is defective</SelectItem>
+                    <SelectItem value="wrong-item">Wrong item received</SelectItem>
+                    <SelectItem value="not-as-described">Not as described</SelectItem>
+                    <SelectItem value="damaged">Damaged during shipping</SelectItem>
+                    <SelectItem value="changed-mind">Changed my mind</SelectItem>
+                    <SelectItem value="other">Other</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="return-comments">Additional Comments (Optional)</Label>
+                <Textarea
+                  id="return-comments"
+                  placeholder="Please provide any additional details..."
+                  value={returnComments}
+                  onChange={(e) => setReturnComments(e.target.value)}
+                  rows={4}
+                />
+              </div>
+            </div>
+            <AlertDialogFooter>
+              <AlertDialogCancel disabled={returning}>Cancel</AlertDialogCancel>
+              <AlertDialogAction 
+                onClick={handleReturnConfirm} 
+                disabled={returning || !returnReason}
+              >
+                {returning ? "Submitting..." : "Submit Return Request"}
               </AlertDialogAction>
             </AlertDialogFooter>
           </AlertDialogContent>

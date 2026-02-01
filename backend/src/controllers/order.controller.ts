@@ -1,9 +1,14 @@
 import { Response } from 'express';
 import { OrderService } from '../services/order.service';
+import { NotificationService } from '../services/notification.service';
 import { AuthRequest } from '../middleware/auth.middleware';
 
 export class OrderController {
-  constructor(private orderService: OrderService) {}
+  private notificationService: NotificationService;
+
+  constructor(private orderService: OrderService) {
+    this.notificationService = new NotificationService();
+  }
 
   createOrder = async (req: AuthRequest, res: Response) => {
     try {
@@ -17,6 +22,20 @@ export class OrderController {
       const order = await this.orderService.createOrder(userId, orderData);
 
       console.log('✅ Order created successfully:', order.orderNumber);
+
+      // Send order confirmation email and SMS
+      try {
+        await this.notificationService.sendOrderConfirmationEmail(order);
+        await this.notificationService.sendOrderSMS(
+          order.shippingPhone,
+          order.orderNumber,
+          'placed'
+        );
+      } catch (notifError) {
+        console.error('⚠️ Failed to send notifications:', notifError);
+        // Don't fail the order creation if notifications fail
+      }
+
       res.status(201).json({
         success: true,
         message: 'Order created successfully',
@@ -84,6 +103,10 @@ export class OrderController {
       const orderId = req.params.orderId as string;
       const { status } = req.body;
 
+      // Get current order to check old status
+      const currentOrder = await this.orderService.getOrderById(orderId, req.user!.userId);
+      const oldStatus = currentOrder?.status || 'unknown';
+
       const order = await this.orderService.updateOrderStatus(orderId, status);
 
       if (!order) {
@@ -92,6 +115,23 @@ export class OrderController {
           message: 'Order not found'
         });
         return;
+      }
+
+      // Get full order with items for notification
+      const fullOrder = await this.orderService.getOrderById(orderId, req.user!.userId);
+
+      // Send status update notifications
+      if (fullOrder) {
+        try {
+          await this.notificationService.sendOrderStatusUpdateEmail(fullOrder, oldStatus);
+          await this.notificationService.sendOrderSMS(
+            fullOrder.shippingPhone,
+            fullOrder.orderNumber,
+            status
+          );
+        } catch (notifError) {
+          console.error('⚠️ Failed to send notifications:', notifError);
+        }
       }
 
       res.status(200).json({
@@ -146,7 +186,32 @@ export class OrderController {
       // Cancel the order
       const cancelledOrder = await this.orderService.updateOrderStatus(orderId, 'cancelled');
 
+      if (!cancelledOrder) {
+        res.status(500).json({
+          success: false,
+          message: 'Failed to cancel order'
+        });
+        return;
+      }
+
       console.log('✅ Order cancelled:', orderId);
+
+      // Get full order with items for notification
+      const fullOrder = await this.orderService.getOrderById(orderId, userId);
+
+      // Send cancellation notification
+      if (fullOrder) {
+        try {
+          await this.notificationService.sendOrderStatusUpdateEmail(fullOrder, order.status);
+          await this.notificationService.sendOrderSMS(
+            fullOrder.shippingPhone,
+            fullOrder.orderNumber,
+            'cancelled'
+          );
+        } catch (notifError) {
+          console.error('⚠️ Failed to send notifications:', notifError);
+        }
+      }
 
       res.status(200).json({
         success: true,
@@ -158,6 +223,94 @@ export class OrderController {
       res.status(500).json({
         success: false,
         message: 'Failed to cancel order'
+      });
+    }
+  };
+
+  returnOrder = async (req: AuthRequest, res: Response) => {
+    try {
+      const userId = req.user!.userId;
+      const orderId = req.params.orderId as string;
+      const { reason, comments } = req.body;
+
+      console.log('🔄 User requesting return for order:', orderId);
+
+      // Get the order first to check ownership and status
+      const order = await this.orderService.getOrderById(orderId, userId);
+
+      if (!order) {
+        res.status(404).json({
+          success: false,
+          message: 'Order not found'
+        });
+        return;
+      }
+
+      // Check if order can be returned (only delivered orders within 7 days)
+      if (order.status !== 'delivered') {
+        res.status(400).json({
+          success: false,
+          message: 'Only delivered orders can be returned'
+        });
+        return;
+      }
+
+      // Check if order is within return window (7 days)
+      const deliveryDate = new Date(order.updatedAt);
+      const currentDate = new Date();
+      const daysSinceDelivery = Math.floor((currentDate.getTime() - deliveryDate.getTime()) / (1000 * 60 * 60 * 24));
+
+      if (daysSinceDelivery > 7) {
+        res.status(400).json({
+          success: false,
+          message: 'Return window has expired. Orders can only be returned within 7 days of delivery'
+        });
+        return;
+      }
+
+      // Update order status to 'returned' (we'll need to add this status)
+      // For now, we'll use 'cancelled' with a note
+      const returnedOrder = await this.orderService.updateOrderStatus(orderId, 'returned');
+
+      if (!returnedOrder) {
+        res.status(500).json({
+          success: false,
+          message: 'Failed to update order status'
+        });
+        return;
+      }
+
+      console.log('✅ Return request processed:', orderId);
+      console.log('Return reason:', reason);
+      console.log('Comments:', comments);
+
+      // Get full order with items for notification
+      const fullOrder = await this.orderService.getOrderById(orderId, userId);
+
+      // Send return confirmation notification
+      if (fullOrder) {
+        try {
+          await this.notificationService.sendOrderStatusUpdateEmail(fullOrder, order.status);
+          await this.notificationService.sendOrderSMS(
+            fullOrder.shippingPhone,
+            fullOrder.orderNumber,
+            'return requested'
+          );
+        } catch (notifError) {
+          console.error('⚠️ Failed to send notifications:', notifError);
+        }
+      }
+
+      res.status(200).json({
+        success: true,
+        message: 'Return request submitted successfully. Refund will be processed within 5-7 business days.',
+        data: returnedOrder
+      });
+    } catch (error: any) {
+      console.error('❌ Return order error:', error);
+      res.status(500).json({
+        success: false,
+        message: 'Failed to process return request'
       });
     }
   };
