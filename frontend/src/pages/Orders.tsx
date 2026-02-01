@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import { Package, Calendar, CreditCard, MapPin, X } from "lucide-react";
+import { Package, Calendar, CreditCard, MapPin, X, Download } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -17,6 +17,7 @@ import {
 } from "@/components/ui/alert-dialog";
 import { orderService, Order } from "@/services/order.service";
 import { toast } from "sonner";
+import { generateInvoice } from "@/utils/invoice";
 
 const statusColors = {
   delivered: "bg-green-500",
@@ -75,6 +76,18 @@ const Orders = () => {
 
   const canCancelOrder = (status: string) => {
     return status === 'processing' || status === 'confirmed';
+  };
+
+  const handleDownloadInvoice = (order: Order) => {
+    try {
+      generateInvoice(order);
+      toast.success("Invoice downloaded successfully");
+    } catch (error) {
+      console.error('Failed to generate invoice:', error);
+      toast.error("Failed to download invoice", {
+        description: "Please try again later"
+      });
+    }
   };
 
   if (loading) {
@@ -190,6 +203,14 @@ const Orders = () => {
                       <div className="flex gap-3 pt-2">
                         <Button variant="outline" size="sm" asChild>
                           <Link to={`/orders/${order.id}`}>View Details</Link>
+                        </Button>
+                        <Button 
+                          variant="outline" 
+                          size="sm"
+                          onClick={() => handleDownloadInvoice(order)}
+                        >
+                          <Download className="h-4 w-4 mr-1" />
+                          Invoice
                         </Button>
                         {canCancelOrder(order.status) && (
                           <Button 
