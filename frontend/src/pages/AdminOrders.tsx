@@ -146,6 +146,46 @@ const AdminOrders = () => {
     setExpandedRow(expandedRow === orderId ? null : orderId);
   };
 
+  const exportToCSV = () => {
+    // Prepare CSV data
+    const headers = ['Order Number', 'Customer Name', 'Email', 'Phone', 'Items', 'Total', 'Status', 'Date', 'Address'];
+    
+    const csvData = filteredOrders.map(order => [
+      order.orderNumber,
+      order.shippingFullName,
+      order.shippingEmail,
+      order.shippingPhone,
+      order.items.length,
+      order.total.toFixed(2),
+      statusLabels[order.status as keyof typeof statusLabels],
+      new Date(order.createdAt).toLocaleDateString('en-IN'),
+      `${order.shippingAddress}, ${order.shippingCity}, ${order.shippingState}`
+    ]);
+
+    // Create CSV content
+    const csvContent = [
+      headers.join(','),
+      ...csvData.map(row => row.map(cell => `"${cell}"`).join(','))
+    ].join('\n');
+
+    // Create blob and download
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    const link = document.createElement('a');
+    const url = URL.createObjectURL(blob);
+    
+    link.setAttribute('href', url);
+    link.setAttribute('download', `orders_export_${new Date().toISOString().split('T')[0]}.csv`);
+    link.style.visibility = 'hidden';
+    
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+
+    toast.success("Orders exported successfully", {
+      description: `${filteredOrders.length} orders exported to CSV`
+    });
+  };
+
   const getOrderStats = () => {
     const totalRevenue = orders.reduce((sum, order) => sum + order.total, 0);
     const previousRevenue = totalRevenue * 0.85;
@@ -198,7 +238,7 @@ const AdminOrders = () => {
               <RefreshCw className="h-4 w-4 mr-2" />
               Refresh
             </Button>
-            <Button variant="outline">
+            <Button variant="outline" onClick={exportToCSV}>
               <Download className="h-4 w-4 mr-2" />
               Export
             </Button>
