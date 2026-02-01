@@ -52,15 +52,15 @@ export function Footer() {
             <div className="flex flex-col gap-2 text-sm text-muted-foreground">
               <div className="flex items-center gap-2">
                 <MapPin className="h-4 w-4 text-primary" />
-                <span>Mumbai, Maharashtra, India</span>
+                <span>Navsari, Gujarat, India</span>
               </div>
               <div className="flex items-center gap-2">
                 <Phone className="h-4 w-4 text-primary" />
-                <span>+91 98765 43210</span>
+                <span>+91 728588 84304</span>
               </div>
               <div className="flex items-center gap-2">
                 <Mail className="h-4 w-4 text-primary" />
-                <span>hello@auraexpress.com</span>
+                <span>aryansondharva25@gmail.com</span>
               </div>
             </div>
           </div>

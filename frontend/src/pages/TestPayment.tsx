@@ -1,19 +1,37 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
-import { CreditCard, Lock, CheckCircle } from "lucide-react";
+import { CreditCard, Lock, CheckCircle, ArrowLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { toast } from "sonner";
+import { orderService } from "@/services/order.service";
+import { useCart } from "@/contexts/CartContext";
 
 const TestPayment = () => {
+  const navigate = useNavigate();
+  const { clearCart } = useCart();
   const [cardNumber, setCardNumber] = useState("");
   const [expiryDate, setExpiryDate] = useState("");
   const [cvv, setCvv] = useState("");
   const [cardName, setCardName] = useState("");
   const [processing, setProcessing] = useState(false);
   const [paymentSuccess, setPaymentSuccess] = useState(false);
+  const [orderNumber, setOrderNumber] = useState("");
+  const [orderData, setOrderData] = useState<any>(null);
+
+  useEffect(() => {
+    // Load pending order from localStorage
+    const pendingOrder = localStorage.getItem('pendingOrder');
+    if (pendingOrder) {
+      setOrderData(JSON.parse(pendingOrder));
+    } else {
+      toast.error("No pending order found");
+      navigate('/checkout');
+    }
+  }, [navigate]);
 
   // Test card details
   const TEST_CARD = {
@@ -82,12 +100,33 @@ const TestPayment = () => {
       setProcessing(true);
 
       // Simulate payment processing
-      setTimeout(() => {
-        setProcessing(false);
-        setPaymentSuccess(true);
-        toast.success("Payment Successful!", {
-          description: "Test payment processed successfully"
-        });
+      setTimeout(async () => {
+        try {
+          // Create order after successful payment
+          console.log('💳 Payment successful, creating order...');
+          const order = await orderService.createOrder(orderData);
+          
+          console.log('✅ Order created:', order);
+          setOrderNumber(order.orderNumber);
+          setProcessing(false);
+          setPaymentSuccess(true);
+          
+          // Clear pending order from localStorage
+          localStorage.removeItem('pendingOrder');
+          
+          // Clear cart
+          clearCart();
+          
+          toast.success("Payment Successful!", {
+            description: `Order ${order.orderNumber} has been placed successfully`
+          });
+        } catch (error: any) {
+          console.error('❌ Order creation failed:', error);
+          setProcessing(false);
+          toast.error("Order creation failed", {
+            description: error.response?.data?.message || "Please try again"
+          });
+        }
       }, 2000);
     } else {
       toast.error("Invalid card", {
@@ -97,12 +136,16 @@ const TestPayment = () => {
   };
 
   const resetForm = () => {
-    setCardNumber("");
-    setExpiryDate("");
-    setCvv("");
-    setCardName("");
-    setPaymentSuccess(false);
+    navigate('/orders');
   };
+
+  if (!orderData) {
+    return (
+      <div className="container py-12 text-center">
+        <p className="text-muted-foreground">Loading...</p>
+      </div>
+    );
+  }
 
   if (paymentSuccess) {
     return (
@@ -121,14 +164,14 @@ const TestPayment = () => {
               </div>
               <h2 className="text-2xl font-bold mb-2">Payment Successful!</h2>
               <p className="text-muted-foreground mb-6">
-                Your test payment has been processed successfully.
+                Your order has been placed successfully.
               </p>
               <div className="bg-muted p-4 rounded-lg mb-6">
-                <p className="text-sm font-mono">Transaction ID: TEST-{Date.now()}</p>
-                <p className="text-sm text-muted-foreground mt-1">Amount: ₹1,000.00</p>
+                <p className="text-sm font-mono">Order Number: {orderNumber}</p>
+                <p className="text-sm text-muted-foreground mt-1">Amount: ₹{orderData?.total.toFixed(2)}</p>
               </div>
               <Button onClick={resetForm} className="w-full">
-                Make Another Payment
+                View My Orders
               </Button>
             </CardContent>
           </Card>
@@ -144,10 +187,19 @@ const TestPayment = () => {
         animate={{ opacity: 1, y: 0 }}
         className="max-w-2xl mx-auto"
       >
+        <Button
+          variant="ghost"
+          onClick={() => navigate('/checkout')}
+          className="mb-4"
+        >
+          <ArrowLeft className="h-4 w-4 mr-2" />
+          Back to Checkout
+        </Button>
+
         <div className="text-center mb-8">
-          <h1 className="text-3xl font-bold mb-2">Test Payment Gateway</h1>
+          <h1 className="text-3xl font-bold mb-2">Complete Payment</h1>
           <p className="text-muted-foreground">
-            Use test card details to simulate payment processing
+            Secure test payment gateway
           </p>
         </div>
 
@@ -250,8 +302,11 @@ const TestPayment = () => {
                 <div className="bg-muted p-4 rounded-lg">
                   <div className="flex justify-between items-center mb-2">
                     <span className="text-sm text-muted-foreground">Amount to Pay</span>
-                    <span className="text-2xl font-bold">₹1,000.00</span>
+                    <span className="text-2xl font-bold">₹{orderData?.total.toFixed(2)}</span>
                   </div>
+                  <p className="text-xs text-muted-foreground">
+                    {orderData?.items.length} item(s) • Shipping: {orderData?.shippingCost === 0 ? 'Free' : `₹${orderData?.shippingCost}`}
+                  </p>
                 </div>
 
                 <Button 
@@ -263,12 +318,12 @@ const TestPayment = () => {
                   {processing ? (
                     <>
                       <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
-                      Processing...
+                      Processing Payment...
                     </>
                   ) : (
                     <>
                       <Lock className="h-4 w-4 mr-2" />
-                      Pay ₹1,000.00
+                      Pay ₹{orderData?.total.toFixed(2)}
                     </>
                   )}
                 </Button>

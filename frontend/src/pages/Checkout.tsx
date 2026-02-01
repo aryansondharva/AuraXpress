@@ -1,21 +1,17 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
-import { CreditCard, MapPin, User, Phone, Mail } from "lucide-react";
+import { CreditCard, MapPin } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useCart } from "@/contexts/CartContext";
 import { useAuth } from "@/contexts/AuthContext";
-import { useToast } from "@/hooks/use-toast";
-import { orderService } from "@/services/order.service";
 import { toast as sonnerToast } from "sonner";
 
 const Checkout = () => {
   const navigate = useNavigate();
-  const { toast } = useToast();
-  const { items: cart, clearCart } = useCart();
+  const { items: cart } = useCart();
   const { user } = useAuth();
-  const [isProcessing, setIsProcessing] = useState(false);
 
   const [shippingInfo, setShippingInfo] = useState({
     fullName: user?.fullName || "",
@@ -42,68 +38,48 @@ const Checkout = () => {
 
   const handlePlaceOrder = async (e: React.FormEvent) => {
     e.preventDefault();
-    setIsProcessing(true);
 
-    try {
-      console.log('🛒 Starting order creation...');
-      console.log('Cart items:', cart);
-      
-      // Prepare order data
-      const orderData = {
-        items: cart.map(item => ({
-          productId: item.product.id,
-          productName: item.product.name,
-          productImage: item.product.images[0],
-          productCategory: item.product.category,
-          quantity: item.quantity,
-          price: item.product.price
-        })),
-        subtotal,
-        shippingCost: shipping,
-        tax,
-        total,
-        shippingInfo: {
-          fullName: shippingInfo.fullName,
-          email: shippingInfo.email,
-          phone: shippingInfo.phone,
-          address: shippingInfo.address,
-          city: shippingInfo.city,
-          state: shippingInfo.state,
-          zipCode: shippingInfo.zipCode,
-          country: shippingInfo.country
-        },
-        paymentInfo: {
-          method: 'card'
-        }
-      };
-
-      console.log('📦 Order data prepared:', orderData);
-      console.log('🌐 Sending to API...');
-
-      // Send order to backend
-      const order = await orderService.createOrder(orderData);
-
-      console.log('✅ Order created:', order);
-      sonnerToast.success("Order Placed Successfully!", {
-        description: `Order ${order.orderNumber} has been confirmed. Total: ₹${total.toFixed(2)}`
-      });
-
-      clearCart();
-      navigate("/orders");
-    } catch (error: any) {
-      console.error('❌ Order creation error:', error);
-      console.error('Error details:', {
-        message: error.message,
-        response: error.response?.data,
-        status: error.response?.status
-      });
-      
-      sonnerToast.error("Order Failed", {
-        description: error.response?.data?.message || error.message || "Failed to place order. Please try again."
-      });
-    } finally {
-      setIsProcessing(false);
+    // Validate shipping information
+    if (!shippingInfo.fullName || !shippingInfo.email || !shippingInfo.phone || 
+        !shippingInfo.address || !shippingInfo.city || !shippingInfo.state || !shippingInfo.zipCode) {
+      sonnerToast.error("Please fill all shipping information");
+      return;
     }
+
+    // Store order data in localStorage for payment page
+    const orderData = {
+      items: cart.map(item => ({
+        productId: item.product.id,
+        productName: item.product.name,
+        productImage: item.product.images[0],
+        productCategory: item.product.category,
+        quantity: item.quantity,
+        price: item.product.price
+      })),
+      subtotal,
+      shippingCost: shipping,
+      tax,
+      total,
+      shippingInfo: {
+        fullName: shippingInfo.fullName,
+        email: shippingInfo.email,
+        phone: shippingInfo.phone,
+        address: shippingInfo.address,
+        city: shippingInfo.city,
+        state: shippingInfo.state,
+        zipCode: shippingInfo.zipCode,
+        country: shippingInfo.country
+      },
+      paymentInfo: {
+        method: 'card'
+      }
+    };
+
+    // Store in localStorage
+    localStorage.setItem('pendingOrder', JSON.stringify(orderData));
+
+    // Redirect to payment page
+    navigate('/test-payment');
   };
 
   if (cart.length === 0) {
@@ -319,7 +295,7 @@ const Checkout = () => {
                   {cart.map((item) => (
                     <div key={item.product.id} className="flex gap-3">
                       <img
-                        src={item.product.image}
+                        src={item.product.images[0]}
                         alt={item.product.name}
                         className="w-16 h-16 object-cover rounded"
                       />
@@ -357,9 +333,8 @@ const Checkout = () => {
                   onClick={handlePlaceOrder}
                   className="w-full"
                   size="lg"
-                  disabled={isProcessing}
                 >
-                  {isProcessing ? "Processing..." : "Place Order"}
+                  Proceed to Payment
                 </Button>
 
                 <p className="text-xs text-muted-foreground text-center">

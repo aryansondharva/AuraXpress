@@ -80,13 +80,13 @@ const sections = [
     title: "Governing Law",
     content: [
       "These terms shall be governed by and construed in accordance with the laws of India, without regard to its conflict of law provisions.",
-      "Any disputes arising from these terms or your use of our services shall be subject to the exclusive jurisdiction of the courts in Mumbai, Maharashtra.",
+      "Any disputes arising from these terms or your use of our services shall be subject to the exclusive jurisdiction of the courts in Navsari, Gujarat.",
     ],
   },
   {
     title: "Contact Information",
     content: [
-      "If you have any questions about these Terms of Service, please contact us at legal@auraexpress.com or +91 98765 43210.",
+      "If you have any questions about these Terms of Service, please contact us at legal@auraexpress.com or +91 72858884304.",
     ],
   },
 ];

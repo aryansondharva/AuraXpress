@@ -62,12 +62,12 @@ const Profile = () => {
     {
       id: 1,
       type: "Home",
-      name: "John Doe",
+      name: "Aryan Sondharva",
       address: "123 Main Street",
-      city: "Mumbai",
-      state: "Maharashtra",
-      zipCode: "400001",
-      phone: "+91 98765 43210",
+      city: "Navsari",
+      state: "Gujarat",
+      zipCode: "396445",
+      phone: "+91 72858884304",
       isDefault: true
     }
   ]);
@@ -705,7 +705,7 @@ const Profile = () => {
                       <Globe className="h-5 w-5 text-muted-foreground" />
                       <div>
                         <p className="font-medium">Current Device</p>
-                        <p className="text-sm text-muted-foreground">Windows • Chrome • Mumbai, India</p>
+                        <p className="text-sm text-muted-foreground">Windows • Chrome • Navsari, India</p>
                       </div>
                     </div>
                     <Badge variant="secondary">Active Now</Badge>

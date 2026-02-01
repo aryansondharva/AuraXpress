@@ -132,8 +132,8 @@ const Privacy = () => {
               </p>
               <div className="space-y-2 text-muted-foreground">
                 <p>Email: privacy@auraexpress.com</p>
-                <p>Phone: +91 98765 43210</p>
-                <p>Address: Mumbai, Maharashtra, India</p>
+                <p>Phone: +91 72858884304</p>
+                <p>Address: Navsari, Gujarat, India</p>
               </div>
             </motion.div>
           </div>

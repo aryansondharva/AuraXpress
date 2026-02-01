@@ -10,19 +10,19 @@ const contactInfo = [
   {
     icon: Mail,
     title: "Email",
-    value: "hello@auraexpress.com",
+    value: "aryansondharva25@gmail.com",
     description: "Send us an email anytime",
   },
   {
     icon: Phone,
     title: "Phone",
-    value: "+91 98765 43210",
+    value: "+91 72858884304",
     description: "Mon-Sat from 9am to 6pm",
   },
   {
     icon: MapPin,
     title: "Address",
-    value: "Mumbai, Maharashtra",
+    value: "Navsari, Gujarat",
     description: "India",
   },
   {
