@@ -2,6 +2,21 @@
 
 A full-stack e-commerce platform built with React, Node.js, Express, and PostgreSQL.
 
+## 📚 Documentation
+
+**Complete documentation is available in the [`docs/`](./docs/) folder.**
+
+### Quick Links
+- 🚀 [Deployment Guide](./docs/deployment/DEPLOY_VERCEL_RENDER_SUPABASE.md)
+- 💻 [Local Development Setup](./docs/development/LOCAL_DEVELOPMENT_SETUP.md)
+- 👨‍💼 [Admin Portal Guide](./docs/admin/ADMIN_ACCESS_QUICK_GUIDE.md)
+- ☁️ [Supabase Setup](./docs/supabase/SUPABASE_QUICK_START.md)
+- 🔧 [Troubleshooting](./docs/troubleshooting/)
+
+**See [docs/README.md](./docs/README.md) for complete documentation index.**
+
+---
+
 ## Features
 
 ### User Features
