@@ -6,7 +6,7 @@ services:
     region: singapore  # Change to your preferred region
     plan: free  # Change to 'starter' for production (no sleep)
     rootDir: backend
-    buildCommand: npm install && npm run build
+    buildCommand: npm install --include=dev && npm run build
     startCommand: npm start
     healthCheckPath: /api/health
     envVars:
