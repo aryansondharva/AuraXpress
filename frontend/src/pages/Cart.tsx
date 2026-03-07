@@ -202,7 +202,7 @@ const Cart = () => {
 
               {/* Security Note */}
               <p className="mt-4 text-center text-xs text-muted-foreground">
-                🔒 Secure checkout powered by Razorpay
+                🔒 Secure checkout
               </p>
             </motion.div>
           </div>

@@ -23,7 +23,7 @@ A full-stack e-commerce platform built with React, Node.js, Express, and Postgre
 - 🔐 User authentication with email and OTP verification
 - 🛍️ Product catalog with categories
 - 🛒 Shopping cart functionality
-- 💳 Secure checkout with Razorpay payment gateway
+- 💳 Secure checkout
 - 📦 Order management and tracking
 - ❌ Order cancellation (for Processing/Confirmed orders)
 - 👤 User profile with order history
@@ -55,14 +55,12 @@ A full-stack e-commerce platform built with React, Node.js, Express, and Postgre
 - **Authentication**: JWT (JSON Web Tokens)
 - **Password Hashing**: bcrypt
 - **Email**: Nodemailer
-- **Payment Gateway**: Razorpay
 
 ## Prerequisites
 
 - Node.js (v16 or higher)
 - PostgreSQL (v12 or higher)
 - npm or yarn
-- Razorpay account (for payments)
 
 ## Installation
 
@@ -105,10 +103,6 @@ NODE_ENV=development
 
 # Frontend Configuration (for CORS)
 FRONTEND_URL=http://localhost:3000
-
-# Razorpay Configuration (Test Mode)
-RAZORPAY_KEY_ID=rzp_test_your_key_id
-RAZORPAY_KEY_SECRET=your_key_secret
 ```
 
 ### 3. Database Setup
@@ -168,9 +162,8 @@ Frontend will run on http://localhost:3000
 4. **Browse Products**: Explore the product catalog
 5. **Add to Cart**: Add products to your shopping cart
 6. **Checkout**: Fill in shipping details and payment information
-7. **Pay**: Complete payment using Razorpay (test mode)
-8. **Track Order**: View order status and tracking information
-9. **Cancel Order**: Cancel orders that are in Processing or Confirmed status
+7. **Track Order**: View order status and tracking information
+8. **Cancel Order**: Cancel orders that are in Processing or Confirmed status
 
 ### Admin Flow
 
@@ -200,25 +193,7 @@ Frontend will run on http://localhost:3000
 - `PATCH /api/admin/orders/:id/status` - Update order status
 - `GET /api/admin/orders/stats` - Get order statistics
 
-### Payments
-- `POST /api/payments/razorpay/create-order` - Create Razorpay order
-- `POST /api/payments/razorpay/verify` - Verify payment
-- `GET /api/payments/razorpay/key` - Get Razorpay key
-
-## Testing
-
-### Test Payment
-
-Use these test card details in Razorpay:
-
-```
-Card Number: 4111 1111 1111 1111
-CVV: 123
-Expiry: Any future date (e.g., 12/25)
-Name: Any name
-```
-
-### Test Order Cancellation
+## Testing Test Order Cancellation
 
 1. Place an order
 2. Go to Orders page
@@ -271,8 +246,6 @@ auraexpress/
 | EMAIL_PASSWORD | Email app password | Yes |
 | PORT | Backend server port | No (default: 3001) |
 | FRONTEND_URL | Frontend URL for CORS | Yes |
-| RAZORPAY_KEY_ID | Razorpay key ID | Yes |
-| RAZORPAY_KEY_SECRET | Razorpay key secret | Yes |
 
 ### Frontend
 
@@ -287,7 +260,6 @@ auraexpress/
 - CORS protection
 - Rate limiting on sensitive endpoints
 - OTP verification for email
-- Payment signature verification
 - SQL injection prevention with parameterized queries
 
 ## Contributing
@@ -309,7 +281,6 @@ For support, email support@auraexpress.com or open an issue in the repository.
 ## Acknowledgments
 
 - Shadcn/ui for the beautiful UI components
-- Razorpay for payment gateway integration
 - PostgreSQL for the robust database
 - React and Express communities
 

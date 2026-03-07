@@ -4,7 +4,6 @@ import authRoutes from './routes/auth.routes';
 import userRoutes from './routes/user.routes';
 import orderRoutes from './routes/order.routes';
 import adminOrderRoutes from './routes/admin-order.routes';
-import paymentRoutes from './routes/payment.routes';
 
 /**
  * Express Application Configuration
@@ -78,12 +77,6 @@ export function createApp(): Application {
    * Base path: /api/admin/orders
    */
   app.use('/api/admin/orders', adminOrderRoutes);
-
-  /**
-   * Mount payment routes
-   * Base path: /api/payments
-   */
-  app.use('/api/payments', paymentRoutes);
 
   // ===== Error Handling =====
 
