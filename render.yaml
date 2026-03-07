@@ -13,7 +13,7 @@ services:
       - key: NODE_ENV
         value: production
       - key: DATABASE_URL
-        value: postgresql://postgres.xksgbckzekxuwfuwwyzj:9913386244%40As@aws-0-ap-southeast-1.pooler.supabase.com:6543/postgres
+        value: postgresql://postgres:1046402103As@db.xksgbckzekxuwfuwwyzj.supabase.co:5432/postgres?sslmode=require
       - key: JWT_SECRET
         generateValue: true  # Render will generate a secure secret
       - key: JWT_EXPIRES_IN
@@ -23,6 +23,6 @@ services:
       - key: EMAIL_SERVICE
         value: gmail
       - key: EMAIL_USER
-        value:
+        value: aryansondharva25@gmail.com
       - key: EMAIL_PASSWORD
-        value:
+        value: jwjmkyjysdyjmglg
