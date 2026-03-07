@@ -9,7 +9,7 @@ export interface Product {
   stock_quantity: number;
   rating: number;
   reviews_count: number;
-  badge?: 'new' | 'sale' | 'bestseller';
+  badge?: 'new' | 'sale' | 'bestseller' | 'classic';
 }
 
 export interface CartItem {
