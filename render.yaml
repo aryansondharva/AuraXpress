@@ -13,7 +13,7 @@ services:
       - key: NODE_ENV
         value: production
       - key: DATABASE_URL
-        value: postgresql://postgres:1046402103As@db.xksgbckzekxuwfuwwyzj.supabase.co:5432/postgres?sslmode=require
+        value: postgresql://postgres:1046402103As@db.xksgbckzekxuwfuwwyzj.supabase.co:5432/postgres?sslmode=verify-full
       - key: JWT_SECRET
         generateValue: true  # Render will generate a secure secret
       - key: JWT_EXPIRES_IN

@@ -10,8 +10,6 @@ const getDatabaseConfig = () => {
     return {
       connectionString: process.env.DATABASE_URL,
       ssl: { rejectUnauthorized: false },
-      // Force IPv4 to avoid IPv6 connection issues
-      family: 4,
     };
   }
   
@@ -26,8 +24,6 @@ const getDatabaseConfig = () => {
     password: process.env.DB_PASSWORD || 'postgres',
     // Enable SSL for Supabase, disable for local
     ssl: isSupabase ? { rejectUnauthorized: false } : false,
-    // Force IPv4 to avoid IPv6 connection issues
-    family: 4,
   };
 };
 
