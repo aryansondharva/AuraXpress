@@ -7,9 +7,11 @@ dotenv.config();
 const getDatabaseConfig = () => {
   // If DATABASE_URL is provided, use it (Render style)
   if (process.env.DATABASE_URL) {
+    // Force IPv4 connection and proper SSL
     return {
       connectionString: process.env.DATABASE_URL,
       ssl: { rejectUnauthorized: false },
+      family: 4, // Force IPv4
     };
   }
   
@@ -24,6 +26,7 @@ const getDatabaseConfig = () => {
     password: process.env.DB_PASSWORD || 'postgres',
     // Enable SSL for Supabase, disable for local
     ssl: isSupabase ? { rejectUnauthorized: false } : false,
+    family: 4, // Force IPv4
   };
 };
 
