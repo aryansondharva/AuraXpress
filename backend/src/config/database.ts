@@ -46,6 +46,14 @@ export const connectDatabase = async (): Promise<void> => {
     console.log('DB_NAME:', process.env.DB_NAME || 'not set');
     console.log('Using SSL:', process.env.DB_HOST && !process.env.DB_HOST.includes('localhost'));
     
+    // Debug: Log if DATABASE_URL is being used (without password)
+    if (process.env.DATABASE_URL) {
+      const maskedUrl = process.env.DATABASE_URL.replace(/:([^:@]+)@/, ':***@');
+      console.log('DATABASE_URL detected:', maskedUrl);
+    } else {
+      console.log('DATABASE_URL: not set, using individual variables');
+    }
+    
     const client = await pool.connect();
     console.log('✅ Database connected successfully');
     client.release();
