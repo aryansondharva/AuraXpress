@@ -5,6 +5,25 @@ dotenv.config();
 
 // Support both DATABASE_URL (common on Render) and individual variables
 const getDatabaseConfig = () => {
+  // Prioritize individual variables if they're all set (overrides dashboard DATABASE_URL)
+  if (process.env.DB_HOST && process.env.DB_USER && process.env.DB_PASSWORD && process.env.DB_NAME) {
+    const isSupabase = !process.env.DB_HOST.includes('localhost');
+    
+    return {
+      host: process.env.DB_HOST,
+      port: parseInt(process.env.DB_PORT || '5432'),
+      database: process.env.DB_NAME,
+      user: process.env.DB_USER,
+      password: process.env.DB_PASSWORD,
+      // Enable SSL for Supabase, disable for local
+      ssl: isSupabase ? { rejectUnauthorized: false } : false,
+      family: 4, // Force IPv4
+      connectionTimeoutMillis: 10000, // 10 seconds timeout
+      idleTimeoutMillis: 30000, // 30 seconds idle timeout
+      keepAlive: true,
+    };
+  }
+  
   // If DATABASE_URL is provided, use it (Render style)
   if (process.env.DATABASE_URL) {
     // Force IPv4 connection and proper SSL
@@ -46,8 +65,12 @@ export const connectDatabase = async (): Promise<void> => {
     console.log('DB_NAME:', process.env.DB_NAME || 'not set');
     console.log('Using SSL:', process.env.DB_HOST && !process.env.DB_HOST.includes('localhost'));
     
-    // Debug: Log if DATABASE_URL is being used (without password)
-    if (process.env.DATABASE_URL) {
+    // Debug: Log which connection method is being used
+    if (process.env.DB_HOST && process.env.DB_USER && process.env.DB_PASSWORD && process.env.DB_NAME) {
+      console.log('Using individual database variables');
+      console.log('DB_HOST:', process.env.DB_HOST);
+      console.log('DB_PORT:', process.env.DB_PORT || '5432');
+    } else if (process.env.DATABASE_URL) {
       const maskedUrl = process.env.DATABASE_URL.replace(/:([^:@]+)@/, ':***@');
       console.log('DATABASE_URL detected:', maskedUrl);
     } else {
