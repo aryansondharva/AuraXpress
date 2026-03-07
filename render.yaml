@@ -12,18 +12,16 @@ services:
     envVars:
       - key: NODE_ENV
         value: production
-      - key: DATABASE_URL
-        sync: false  # Set manually in Render dashboard
       - key: DB_HOST
-        sync: false
+        value: db.xksgbckzekxuwfuwwyzj.supabase.co
       - key: DB_PORT
         value: 5432
       - key: DB_NAME
-        sync: false
+        value: postgres
       - key: DB_USER
-        sync: false
+        value: postgres
       - key: DB_PASSWORD
-        sync: false
+        value: 9913386244@As
       - key: JWT_SECRET
         generateValue: true  # Render will generate a secure secret
       - key: JWT_EXPIRES_IN
@@ -33,6 +31,6 @@ services:
       - key: EMAIL_SERVICE
         value: gmail
       - key: EMAIL_USER
-        sync: false
+        value: 
       - key: EMAIL_PASSWORD
-        sync: false
+        value: 
