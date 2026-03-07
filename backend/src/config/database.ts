@@ -12,6 +12,9 @@ const getDatabaseConfig = () => {
       connectionString: process.env.DATABASE_URL,
       ssl: { rejectUnauthorized: false },
       family: 4, // Force IPv4
+      connectionTimeoutMillis: 10000, // 10 seconds timeout
+      idleTimeoutMillis: 30000, // 30 seconds idle timeout
+      keepAlive: true,
     };
   }
   
@@ -27,6 +30,9 @@ const getDatabaseConfig = () => {
     // Enable SSL for Supabase, disable for local
     ssl: isSupabase ? { rejectUnauthorized: false } : false,
     family: 4, // Force IPv4
+    connectionTimeoutMillis: 10000, // 10 seconds timeout
+    idleTimeoutMillis: 30000, // 30 seconds idle timeout
+    keepAlive: true,
   };
 };
 
