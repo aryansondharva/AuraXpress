@@ -24,8 +24,6 @@ const getDatabaseConfig = () => {
     password: process.env.DB_PASSWORD || 'postgres',
     // Enable SSL for Supabase, disable for local
     ssl: isSupabase ? { rejectUnauthorized: false } : false,
-    // Force IPv4 to avoid IPv6 connection issues
-    options: '-c client_encoding=UTF8',
   };
 };
 
@@ -33,11 +31,17 @@ export const pool = new Pool(getDatabaseConfig());
 
 export const connectDatabase = async (): Promise<void> => {
   try {
+    // Log connection attempt (without sensitive data)
+    console.log('Attempting database connection...');
+    console.log('DB_HOST:', process.env.DB_HOST || 'not set');
+    console.log('DB_NAME:', process.env.DB_NAME || 'not set');
+    console.log('Using SSL:', process.env.DB_HOST && !process.env.DB_HOST.includes('localhost'));
+    
     const client = await pool.connect();
-    console.log('Database connected successfully');
+    console.log('✅ Database connected successfully');
     client.release();
   } catch (error) {
-    console.error('Database connection error:', error);
+    console.error('❌ Database connection error:', error);
     throw error;
   }
 };
