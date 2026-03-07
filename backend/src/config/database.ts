@@ -24,6 +24,8 @@ const getDatabaseConfig = () => {
     password: process.env.DB_PASSWORD || 'postgres',
     // Enable SSL for Supabase, disable for local
     ssl: isSupabase ? { rejectUnauthorized: false } : false,
+    // Force IPv4 to avoid IPv6 connection issues
+    options: '-c client_encoding=UTF8',
   };
 };
 
