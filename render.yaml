@@ -12,16 +12,8 @@ services:
     envVars:
       - key: NODE_ENV
         value: production
-      - key: DB_HOST
-        value: db.xksgbckzekxuwfuwwyzj.supabase.co
-      - key: DB_PORT
-        value: "5432"
-      - key: DB_NAME
-        value: postgres
-      - key: DB_USER
-        value: postgres
-      - key: DB_PASSWORD
-        value: "1046402103As"
+      - key: DATABASE_URL
+        value: postgresql://postgres:1046402103As@db.xksgbckzekxuwfuwwyzj.supabase.co:5432/postgres?sslmode=require
       - key: DB_DEBUG
         value: "true"
       - key: JWT_SECRET
