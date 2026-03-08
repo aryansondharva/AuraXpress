@@ -209,20 +209,20 @@ const Products = () => {
               <div>
                 <h3 className="mb-4 font-semibold">Price Range</h3>
                 <div className="space-y-2">
-                  {["Under ₹1,000", "₹1,000 - ₹3,000", "₹3,000 - ₹5,000", "Above ₹5,000"].map(
-                    (range) => (
-                      <label
-                        key={range}
-                        className="flex cursor-pointer items-center gap-2 text-sm text-muted-foreground hover:text-foreground"
-                      >
-                        <input
-                          type="checkbox"
-                          className="h-4 w-4 rounded border-border text-primary focus:ring-primary"
-                        />
-                        {range}
-                      </label>
-                    )
-                  )}
+                  {priceRanges.map((range) => (
+                    <label
+                      key={range.key}
+                      className="flex cursor-pointer items-center gap-2 text-sm text-muted-foreground hover:text-foreground"
+                    >
+                      <input
+                        type="checkbox"
+                        checked={selectedPriceRanges.includes(range.key)}
+                        onChange={() => handlePriceRangeChange(range.key)}
+                        className="h-4 w-4 rounded border-border text-primary focus:ring-primary"
+                      />
+                      {range.label}
+                    </label>
+                  ))}
                 </div>
               </div>
             </div>
@@ -236,7 +236,7 @@ const Products = () => {
               className="mb-6 rounded-xl border border-border bg-card p-4 lg:hidden"
             >
               <h3 className="mb-3 font-semibold">Categories</h3>
-              <div className="flex flex-wrap gap-2">
+              <div className="flex flex-wrap gap-2 mb-4">
                 <button
                   onClick={() => handleCategoryChange("")}
                   className={`rounded-full px-3 py-1.5 text-sm ${
@@ -259,6 +259,24 @@ const Products = () => {
                   >
                     {category.name}
                   </button>
+                ))}
+              </div>
+              
+              <h3 className="mb-3 font-semibold">Price Range</h3>
+              <div className="space-y-2">
+                {priceRanges.map((range) => (
+                  <label
+                    key={range.key}
+                    className="flex cursor-pointer items-center gap-2 text-sm text-muted-foreground hover:text-foreground"
+                  >
+                    <input
+                      type="checkbox"
+                      checked={selectedPriceRanges.includes(range.key)}
+                      onChange={() => handlePriceRangeChange(range.key)}
+                      className="h-4 w-4 rounded border-border text-primary focus:ring-primary"
+                    />
+                    {range.label}
+                  </label>
                 ))}
               </div>
             </motion.div>
@@ -284,6 +302,7 @@ const Products = () => {
                   onClick={() => {
                     setSearchQuery("");
                     handleCategoryChange("");
+                    setSelectedPriceRanges([]);
                   }}
                 >
                   Clear Filters
