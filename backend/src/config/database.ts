@@ -5,9 +5,13 @@ dotenv.config();
 
 // Support both DATABASE_URL (common on Render) and individual variables
 const getDatabaseConfig = () => {
-  // Prioritize individual variables if they're all set (overrides dashboard DATABASE_URL)
+  // Always prioritize individual variables if they're all set (completely ignore dashboard DATABASE_URL)
   if (process.env.DB_HOST && process.env.DB_USER && process.env.DB_PASSWORD && process.env.DB_NAME) {
     const isSupabase = !process.env.DB_HOST.includes('localhost');
+    
+    console.log('Using individual database variables');
+    console.log('DB_HOST:', process.env.DB_HOST);
+    console.log('DB_PORT:', process.env.DB_PORT || '5432');
     
     return {
       host: process.env.DB_HOST,
@@ -24,8 +28,9 @@ const getDatabaseConfig = () => {
     };
   }
   
-  // If DATABASE_URL is provided, use it (Render style)
+  // Only use DATABASE_URL as fallback when individual variables are NOT set
   if (process.env.DATABASE_URL) {
+    console.log('DATABASE_URL detected as fallback (individual variables not set)');
     // Force IPv4 connection and proper SSL
     return {
       connectionString: process.env.DATABASE_URL,
