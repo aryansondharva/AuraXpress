@@ -14,6 +14,13 @@ const sortOptions = [
   { value: "newest", label: "Newest" },
 ];
 
+const priceRanges = [
+  { key: "under-1000", label: "Under ₹1,000", min: 0, max: 999 },
+  { key: "1000-3000", label: "₹1,000 - ₹3,000", min: 1000, max: 3000 },
+  { key: "3000-5000", label: "₹3,000 - ₹5,000", min: 3000, max: 5000 },
+  { key: "above-5000", label: "Above ₹5,000", min: 5001, max: Infinity },
+];
+
 const Products = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const [searchQuery, setSearchQuery] = useState("");
@@ -22,6 +29,7 @@ const Products = () => {
   );
   const [sortBy, setSortBy] = useState("featured");
   const [showFilters, setShowFilters] = useState(false);
+  const [selectedPriceRanges, setSelectedPriceRanges] = useState<string[]>([]);
 
   const filteredProducts = useMemo(() => {
     let result = [...products];
@@ -43,6 +51,17 @@ const Products = () => {
       );
     }
 
+    // Filter by price range
+    if (selectedPriceRanges.length > 0) {
+      result = result.filter((product) => {
+        return selectedPriceRanges.some((rangeKey) => {
+          const range = priceRanges.find((r) => r.key === rangeKey);
+          if (!range) return false;
+          return product.price >= range.min && product.price <= range.max;
+        });
+      });
+    }
+
     // Sort
     switch (sortBy) {
       case "price-low":
@@ -60,7 +79,7 @@ const Products = () => {
     }
 
     return result;
-  }, [searchQuery, selectedCategory, sortBy]);
+  }, [searchQuery, selectedCategory, sortBy, selectedPriceRanges]);
 
   const handleCategoryChange = (categorySlug: string) => {
     setSelectedCategory(categorySlug);
@@ -69,6 +88,14 @@ const Products = () => {
     } else {
       setSearchParams({});
     }
+  };
+
+  const handlePriceRangeChange = (rangeKey: string) => {
+    setSelectedPriceRanges((prev) =>
+      prev.includes(rangeKey)
+        ? prev.filter((key) => key !== rangeKey)
+        : [...prev, rangeKey]
+    );
   };
 
   return (
