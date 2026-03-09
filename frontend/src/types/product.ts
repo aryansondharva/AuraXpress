@@ -9,7 +9,7 @@ export interface Product {
   stock_quantity: number;
   rating: number;
   reviews_count: number;
-  badge?: 'new' | 'sale' | 'bestseller' | 'classic';
+  badge?: 'new' | 'sale' | 'bestseller' | 'classic' | 'eco-champion';
   environmentalImpact?: number; // Score from 0-100, where higher is better
 }
 

@@ -19,6 +19,7 @@ export function ProductCard({ product, index = 0 }: ProductCardProps) {
     sale: "bg-destructive",
     bestseller: "bg-success",
     classic: "bg-purple-500",
+    "eco-champion": "bg-green-600",
   };
 
   // Function to determine environmental impact color

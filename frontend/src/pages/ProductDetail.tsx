@@ -134,7 +134,13 @@ const ProductDetail = () => {
                     ? "bg-blue-500"
                     : product.badge === "sale"
                     ? "bg-destructive"
-                    : "bg-success"
+                    : product.badge === "bestseller"
+                    ? "bg-success"
+                    : product.badge === "classic"
+                    ? "bg-purple-500"
+                    : product.badge === "eco-champion"
+                    ? "bg-green-600"
+                    : "bg-gray-500"
                 }`}
               >
                 {product.badge}
