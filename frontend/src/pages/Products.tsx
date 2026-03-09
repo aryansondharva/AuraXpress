@@ -46,8 +46,11 @@ const Products = () => {
     // Filter by category
     if (selectedCategory) {
       result = result.filter(
-        (product) =>
-          product.category.toLowerCase().replace(/\s+/g, "-") === selectedCategory
+        (product) => {
+          // Find the category by slug and match by name
+          const category = categories.find(cat => cat.slug === selectedCategory);
+          return category ? product.category === category.name : false;
+        }
       );
     }
 

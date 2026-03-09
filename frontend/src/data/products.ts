@@ -976,12 +976,14 @@ export const products: Product[] = [
     category: "Books",
     images: [
       "https://images.unsplash.com/photo-1544947950-fa07a98d237f?w=600&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600&h=600&fit=crop",
     ],
     description: "Delia Owens' bestselling novel about a young girl raised in the marshes of the American South.",
     stock_quantity: 165,
     rating: 4.6,
     reviews_count: 1789,
     badge: "bestseller",
+    environmentalImpact: 78, // High score for books - recyclable, long-lasting, shareable
   },
 ];
 

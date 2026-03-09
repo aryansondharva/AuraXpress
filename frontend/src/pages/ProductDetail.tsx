@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import {
@@ -17,15 +17,38 @@ import { Button } from "@/components/ui/button";
 import { ProductCard } from "@/components/product/ProductCard";
 import { products, formatPrice } from "@/data/products";
 import { useCart } from "@/contexts/CartContext";
-import { handleImageError, getValidImageUrl } from "@/utils/imageUtils";
+import { handleImageError, getValidImageUrl, preloadImage } from "@/utils/imageUtils";
 
 const ProductDetail = () => {
   const { id } = useParams<{ id: string }>();
   const { addItem } = useCart();
   const [quantity, setQuantity] = useState(1);
   const [selectedImage, setSelectedImage] = useState(0);
+  const [mainImageLoaded, setMainImageLoaded] = useState(false);
+  const [thumbnailLoaded, setThumbnailLoaded] = useState<{ [key: number]: boolean }>({});
 
   const product = products.find((p) => p.id === id);
+
+  // Preload main image when selection changes
+  useEffect(() => {
+    if (product && product.images[selectedImage]) {
+      setMainImageLoaded(false);
+      const imageUrl = getValidImageUrl([product.images[selectedImage]]);
+      preloadImage(imageUrl)
+        .then(() => setMainImageLoaded(true))
+        .catch(() => setMainImageLoaded(true)); // Show fallback even on error
+    }
+  }, [product, selectedImage]);
+
+  // Preload thumbnail
+  const preloadThumbnail = (index: number) => {
+    if (!thumbnailLoaded[index] && product && product.images[index]) {
+      const imageUrl = getValidImageUrl([product.images[index]]);
+      preloadImage(imageUrl)
+        .then(() => setThumbnailLoaded(prev => ({ ...prev, [index]: true })))
+        .catch(() => setThumbnailLoaded(prev => ({ ...prev, [index]: true })));
+    }
+  };
 
   // Function to determine environmental impact color
   const getEnvironmentalImpactColor = (score?: number) => {
@@ -92,11 +115,19 @@ const ProductDetail = () => {
             className="space-y-4"
           >
             <div className="aspect-square overflow-hidden rounded-2xl border border-border bg-card">
+              {/* Loading skeleton */}
+              {!mainImageLoaded && (
+                <div className="absolute inset-0 bg-gray-200 animate-pulse" />
+              )}
+              
               <img
                 src={getValidImageUrl([product.images[selectedImage]])}
                 alt={product.name}
-                className="h-full w-full object-cover"
+                className={`h-full w-full object-cover transition-opacity duration-300 ${
+                  mainImageLoaded ? 'opacity-100' : 'opacity-0'
+                }`}
                 onError={handleImageError}
+                onLoad={() => setMainImageLoaded(true)}
                 loading="lazy"
               />
             </div>
@@ -106,17 +137,24 @@ const ProductDetail = () => {
                   <button
                     key={index}
                     onClick={() => setSelectedImage(index)}
+                    onMouseEnter={() => preloadThumbnail(index)}
                     className={`aspect-square w-20 overflow-hidden rounded-lg border-2 transition-colors ${
                       selectedImage === index
                         ? "border-primary"
                         : "border-border hover:border-primary/50"
                     }`}
                   >
+                    {!thumbnailLoaded[index] && (
+                      <div className="absolute inset-0 bg-gray-200 animate-pulse" />
+                    )}
                     <img
                       src={getValidImageUrl([image])}
                       alt={`${product.name} ${index + 1}`}
-                      className="h-full w-full object-cover"
+                      className={`h-full w-full object-cover transition-opacity duration-300 ${
+                        thumbnailLoaded[index] ? 'opacity-100' : 'opacity-0'
+                      }`}
                       onError={handleImageError}
+                      onLoad={() => setThumbnailLoaded(prev => ({ ...prev, [index]: true }))}
                       loading="lazy"
                     />
                   </button>

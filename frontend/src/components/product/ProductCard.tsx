@@ -5,7 +5,8 @@ import { Button } from "@/components/ui/button";
 import { Product } from "@/types/product";
 import { formatPrice } from "@/data/products";
 import { useCart } from "@/contexts/CartContext";
-import { handleImageError, getValidImageUrl } from "@/utils/imageUtils";
+import { handleImageError, getValidImageUrl, preloadImage } from "@/utils/imageUtils";
+import { useState, useEffect } from "react";
 
 interface ProductCardProps {
   product: Product;
@@ -14,6 +15,24 @@ interface ProductCardProps {
 
 export function ProductCard({ product, index = 0 }: ProductCardProps) {
   const { addItem } = useCart();
+  const [imageLoaded, setImageLoaded] = useState(false);
+  const [imageError, setImageError] = useState(false);
+  const [currentImageUrl, setCurrentImageUrl] = useState(getValidImageUrl(product.images));
+
+  // Preload the image
+  useEffect(() => {
+    const imageUrl = getValidImageUrl(product.images);
+    setCurrentImageUrl(imageUrl);
+    setImageLoaded(false);
+    setImageError(false);
+    
+    preloadImage(imageUrl)
+      .then(() => setImageLoaded(true))
+      .catch(() => {
+        setImageError(true);
+        setCurrentImageUrl(getValidImageUrl([])); // Use fallback
+      });
+  }, [product.images]);
 
   const badgeColors = {
     new: "bg-blue-500",
@@ -50,11 +69,23 @@ export function ProductCard({ product, index = 0 }: ProductCardProps) {
     >
       {/* Image Container */}
       <Link to={`/products/${product.id}`} className="relative aspect-square overflow-hidden">
+        {/* Loading skeleton */}
+        {!imageLoaded && !imageError && (
+          <div className="absolute inset-0 bg-gray-200 animate-pulse" />
+        )}
+        
         <img
-          src={getValidImageUrl(product.images)}
+          src={currentImageUrl}
           alt={product.name}
-          className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
-          onError={handleImageError}
+          className={`h-full w-full object-cover transition-transform duration-500 group-hover:scale-110 ${
+            imageLoaded ? 'opacity-100' : 'opacity-0'
+          }`}
+          onError={(e) => {
+            handleImageError(e);
+            setImageError(true);
+            setImageLoaded(true);
+          }}
+          onLoad={() => setImageLoaded(true)}
           loading="lazy"
         />
         
