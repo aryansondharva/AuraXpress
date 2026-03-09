@@ -28,3 +28,6 @@ services:
         value: aryansondharva25@gmail.com
       - key: EMAIL_PASSWORD
         value: jwjmkyjysdyjmglg
+
+#postgresql://postgres.1046402103As@aws-0-ap-south-1.pooler.supabase.com:6543/postgres?sslmode=require
+#postgresql://postgres:1046402103As@db.xksgbckzekxuwfuwwyzj.supabase.co:5432/postgres?sslmode=require
