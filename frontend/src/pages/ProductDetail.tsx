@@ -17,6 +17,7 @@ import { Button } from "@/components/ui/button";
 import { ProductCard } from "@/components/product/ProductCard";
 import { products, formatPrice } from "@/data/products";
 import { useCart } from "@/contexts/CartContext";
+import { handleImageError, getValidImageUrl } from "@/utils/imageUtils";
 
 const ProductDetail = () => {
   const { id } = useParams<{ id: string }>();
@@ -92,9 +93,11 @@ const ProductDetail = () => {
           >
             <div className="aspect-square overflow-hidden rounded-2xl border border-border bg-card">
               <img
-                src={product.images[selectedImage]}
+                src={getValidImageUrl([product.images[selectedImage]])}
                 alt={product.name}
                 className="h-full w-full object-cover"
+                onError={handleImageError}
+                loading="lazy"
               />
             </div>
             {product.images.length > 1 && (
@@ -110,9 +113,11 @@ const ProductDetail = () => {
                     }`}
                   >
                     <img
-                      src={image}
+                      src={getValidImageUrl([image])}
                       alt={`${product.name} ${index + 1}`}
                       className="h-full w-full object-cover"
+                      onError={handleImageError}
+                      loading="lazy"
                     />
                   </button>
                 ))}

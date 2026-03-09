@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Product } from "@/types/product";
 import { formatPrice } from "@/data/products";
 import { useCart } from "@/contexts/CartContext";
+import { handleImageError, getValidImageUrl } from "@/utils/imageUtils";
 
 interface ProductCardProps {
   product: Product;
@@ -50,9 +51,11 @@ export function ProductCard({ product, index = 0 }: ProductCardProps) {
       {/* Image Container */}
       <Link to={`/products/${product.id}`} className="relative aspect-square overflow-hidden">
         <img
-          src={product.images[0]}
+          src={getValidImageUrl(product.images)}
           alt={product.name}
           className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
+          onError={handleImageError}
+          loading="lazy"
         />
         
         {/* Badge */}
