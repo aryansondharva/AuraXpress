@@ -69,8 +69,8 @@ export const products: Product[] = [
     price: 799,
     category: "Fashion",
     images: [
-      "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=600&h=600&fit=crop",
-      "https://images.unsplash.com/photo-1434389677669-e08b4cac3105?w=600&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=600&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1558618047-3c8c76ca7d13?w=600&h=600&fit=crop",
     ],
     description: "Soft, breathable 100% organic cotton t-shirt perfect for everyday wear. Sustainable and comfortable.",
     stock_quantity: 200,
@@ -133,8 +133,8 @@ export const products: Product[] = [
     originalPrice: 1999,
     category: "Fashion",
     images: [
-      "https://images.unsplash.com/photo-1515372039744-b8f02a3ae446?w=600&h=600&fit=crop",
-      "https://images.unsplash.com/photo-1539008764793-8f3515b0c78f?w=600&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=600&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1558618047-3c8c76ca7d13?w=600&h=600&fit=crop",
     ],
     description: "Lightweight and breathable bamboo fiber dress perfect for summer. Naturally antibacterial and UV protective.",
     stock_quantity: 60,
@@ -149,8 +149,8 @@ export const products: Product[] = [
     price: 2299,
     category: "Fashion",
     images: [
-      "https://images.unsplash.com/photo-1542272604-787c3835535d?w=600&h=600&fit=crop",
-      "https://images.unsplash.com/photo-1541099649105-f69ad21f3246?w=600&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=600&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1558618047-3c8c76ca7d13?w=600&h=600&fit=crop",
     ],
     description: "Stylish skinny jeans made from 80% recycled denim. Water-efficient production and organic cotton blend.",
     stock_quantity: 75,
@@ -181,8 +181,8 @@ export const products: Product[] = [
     price: 1299,
     category: "Fashion",
     images: [
-      "https://images.unsplash.com/photo-1517891907240-ceaf1d5a1b36?w=600&h=600&fit=crop",
-      "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=600&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=600&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1558618047-3c8c76ca7d13?w=600&h=600&fit=crop",
     ],
     description: "High-performance yoga leggings made from GOTS certified organic cotton. Four-way stretch and moisture-wicking.",
     stock_quantity: 90,
@@ -198,7 +198,7 @@ export const products: Product[] = [
     category: "Home & Living",
     images: [
       "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600&h=600&fit=crop",
-      "https://images.unsplash.com/photo-1515372039744-b8f02a3ae446?w=600&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=600&h=600&fit=crop",
     ],
     description: "Modern LED desk lamp with adjustable brightness and color temperature. USB charging port included.",
     stock_quantity: 75,
@@ -275,8 +275,8 @@ export const products: Product[] = [
     price: 1499,
     category: "Sports",
     images: [
-      "https://images.unsplash.com/photo-1517891907240-ceaf1d5a1b36?w=600&h=600&fit=crop",
-      "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=600&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1545205597-3d9d02c29597?w=600&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1506126613408-eca07ce68773?w=600&h=600&fit=crop",
     ],
     description: "High-performance yoga pants made from GOTS certified organic cotton. Comfortable and sustainable.",
     stock_quantity: 80,
