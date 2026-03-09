@@ -10,6 +10,7 @@ export interface Product {
   rating: number;
   reviews_count: number;
   badge?: 'new' | 'sale' | 'bestseller' | 'classic';
+  environmentalImpact?: number; // Score from 0-100, where higher is better
 }
 
 export interface CartItem {

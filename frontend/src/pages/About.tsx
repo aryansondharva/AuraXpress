@@ -71,7 +71,7 @@ const About = () => {
             </p>
             <div className="mt-6 flex justify-center gap-4">
               <span className="rounded-full bg-primary/10 px-4 py-2 text-sm font-medium text-primary">
-                Built in 48 Hours
+                Built in 6 Hours
               </span>
               <span className="rounded-full bg-secondary px-4 py-2 text-sm font-medium">
                 Full-Stack Solution

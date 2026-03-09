@@ -54,12 +54,14 @@ export const products: Product[] = [
     category: "Electronics",
     images: [
       "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=600&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1484704849700-f032de547870?w=600&h=600&fit=crop",
     ],
     description: "Premium noise cancelling over-ear headphones with 30 hours battery life and crystal clear audio quality.",
     stock_quantity: 50,
     rating: 4.5,
     reviews_count: 128,
     badge: "sale",
+    environmentalImpact: 52, // Moderate score - electronic but reusable and long-lasting
   },
   {
     id: "2",
@@ -68,12 +70,14 @@ export const products: Product[] = [
     category: "Fashion",
     images: [
       "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=600&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1434389677669-e08b4cac3105?w=600&h=600&fit=crop",
     ],
-    description: "100% organic cotton crew neck t-shirt with a relaxed fit. Perfect for everyday wear.",
-    stock_quantity: 100,
-    rating: 4.8,
-    reviews_count: 256,
-    badge: "bestseller",
+    description: "Soft, breathable 100% organic cotton t-shirt perfect for everyday wear. Sustainable and comfortable.",
+    stock_quantity: 200,
+    rating: 4.3,
+    reviews_count: 89,
+    badge: "new",
+    environmentalImpact: 75, // High score for organic cotton - sustainable material
   },
   {
     id: "3",
@@ -83,6 +87,7 @@ export const products: Product[] = [
     category: "Electronics",
     images: [
       "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=600&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1551816230-ef5deaed4a26?w=600&h=600&fit=crop",
     ],
     description: "Advanced smartwatch with heart rate monitoring, GPS tracking, and 7 days battery life.",
     stock_quantity: 30,
@@ -97,6 +102,7 @@ export const products: Product[] = [
     category: "Fashion",
     images: [
       "https://images.unsplash.com/photo-1548036328-c9fa89d128fa?w=600&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1558769132-cb1aea458c5e?w=600&h=600&fit=crop",
     ],
     description: "Handcrafted genuine leather crossbody bag with adjustable strap and multiple compartments.",
     stock_quantity: 45,
@@ -125,6 +131,7 @@ export const products: Product[] = [
     category: "Sports",
     images: [
       "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=600&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1606107557195-0e29a4b5b4aa?w=600&h=600&fit=crop",
     ],
     description: "Lightweight running shoes with responsive cushioning and breathable mesh upper.",
     stock_quantity: 60,
@@ -139,12 +146,14 @@ export const products: Product[] = [
     category: "Home & Living",
     images: [
       "https://images.unsplash.com/photo-1485955900006-10f4d324d411?w=600&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1416879595882-3373a0480b5b?w=600&h=600&fit=crop",
     ],
     description: "Set of 3 handmade ceramic plant pots in different sizes. Perfect for succulents and small plants.",
     stock_quantity: 120,
     rating: 4.3,
     reviews_count: 78,
     badge: "new",
+    environmentalImpact: 85, // High score for eco-friendly, sustainable materials
   },
   {
     id: "8",
@@ -153,12 +162,14 @@ export const products: Product[] = [
     category: "Beauty",
     images: [
       "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?w=600&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1522337360788-8b13dee7a37b?w=600&h=600&fit=crop",
     ],
-    description: "Advanced anti-aging serum with vitamin C, hyaluronic acid, and natural extracts.",
-    stock_quantity: 85,
-    rating: 4.8,
-    reviews_count: 203,
+    description: "Advanced anti-aging serum with hyaluronic acid, vitamin C, and natural botanical extracts.",
+    stock_quantity: 75,
+    rating: 4.6,
+    reviews_count: 234,
     badge: "bestseller",
+    environmentalImpact: 72, // Moderate score for natural ingredients but some packaging
   },
   {
     id: "9",
@@ -168,12 +179,14 @@ export const products: Product[] = [
     category: "Electronics",
     images: [
       "https://images.unsplash.com/photo-1496181133206-80ce9b88a853?w=600&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1541807084-5c52b6b3adef?w=600&h=600&fit=crop",
     ],
-    description: "Efficient 14-inch laptop with Intel Core i5 processor, 8GB RAM, 256GB SSD, and integrated graphics. Perfect for everyday computing, web browsing, and productivity tasks.",
-    stock_quantity: 45,
-    rating: 4.3,
-    reviews_count: 187,
+    description: "Affordable 14-inch laptop with Intel Celeron processor, 4GB RAM, 64GB storage, and Windows 11. Perfect for students and basic tasks.",
+    stock_quantity: 85,
+    rating: 4.1,
+    reviews_count: 428,
     badge: "sale",
+    environmentalImpact: 45, // Lower score due to electronic components and manufacturing
   },
   {
     id: "10",
@@ -183,12 +196,14 @@ export const products: Product[] = [
     category: "Electronics",
     images: [
       "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?w=600&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1603302576837-37561b5fe0bf?w=600&h=600&fit=crop",
     ],
     description: "Powerful 15.6-inch laptop featuring Intel Core i7 processor, 16GB RAM, 512GB SSD, and NVIDIA GeForce GTX graphics. Ideal for content creation, multitasking, and light gaming.",
     stock_quantity: 28,
     rating: 4.7,
     reviews_count: 342,
     badge: "bestseller",
+    environmentalImpact: 42, // Lower score due to high-performance components and energy use
   },
   {
     id: "11",
@@ -196,13 +211,15 @@ export const products: Product[] = [
     price: 129999,
     category: "Electronics",
     images: [
-      "https://images.unsplash.com/photo-1603302576837-37561b2e2302?w=600&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1603302576837-37561b5fe0bf?w=600&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1587200631170-b77a16c4c9e2?w=600&h=600&fit=crop",
     ],
     description: "High-performance 16-inch gaming laptop with Intel Core i9 processor, 32GB RAM, 1TB SSD, NVIDIA RTX 4060 graphics, and 165Hz display. Built for serious gaming and professional workloads.",
     stock_quantity: 15,
     rating: 4.9,
     reviews_count: 428,
     badge: "new",
+    environmentalImpact: 38, // Low score due to high energy consumption and rare materials
   },
   {
     id: "12",
@@ -212,12 +229,14 @@ export const products: Product[] = [
     category: "Electronics",
     images: [
       "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=600&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1572569511254-d8f925fe2cbb?w=600&h=600&fit=crop",
     ],
     description: "Affordable 5G smartphone with 6.5-inch HD+ display, 48MP dual camera, 5000mAh battery, 64GB storage, and MediaTek processor. Great value for everyday use.",
     stock_quantity: 120,
     rating: 4.2,
     reviews_count: 856,
     badge: "sale",
+    environmentalImpact: 48, // Moderate score for budget phone - less resource-intensive than premium
   },
   {
     id: "13",
@@ -226,6 +245,7 @@ export const products: Product[] = [
     category: "Electronics",
     images: [
       "https://images.unsplash.com/photo-1592286927505-4fd4d3d4ef9f?w=600&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1605236453806-b25ea7c3038f?w=600&h=600&fit=crop",
     ],
     description: "Feature-packed smartphone with 6.7-inch AMOLED display, 108MP triple camera system, 4500mAh battery with fast charging, 128GB storage, and Snapdragon processor.",
     stock_quantity: 85,
@@ -241,6 +261,7 @@ export const products: Product[] = [
     category: "Electronics",
     images: [
       "https://images.unsplash.com/photo-1598327105666-5b89351aff97?w=600&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1580910051074-3eb694886505?w=600&h=600&fit=crop",
     ],
     description: "Premium flagship with 6.8-inch LTPO AMOLED 120Hz display, 200MP quad camera with 8K video, 5000mAh battery, 256GB storage, latest Snapdragon processor, and IP68 water resistance.",
     stock_quantity: 42,
@@ -256,6 +277,7 @@ export const products: Product[] = [
     category: "Electronics",
     images: [
       "https://images.unsplash.com/photo-1590658268037-6bf12165a8df?w=600&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1572569511254-d8f925fe2cbb?w=600&h=600&fit=crop",
     ],
     description: "Affordable wireless earbuds with Bluetooth 5.0, 6 hours playback per charge, 24 hours with charging case, IPX4 water resistance, and touch controls.",
     stock_quantity: 180,
@@ -270,6 +292,7 @@ export const products: Product[] = [
     category: "Electronics",
     images: [
       "https://images.unsplash.com/photo-1606841837239-c5a1a4a07af7?w=600&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1588421357575-934ad502cfbb?w=600&h=600&fit=crop",
     ],
     description: "Premium earbuds with Active Noise Cancellation, Bluetooth 5.2, 8 hours playback, 30 hours with case, IPX5 water resistance, transparency mode, and premium sound quality.",
     stock_quantity: 95,
@@ -284,6 +307,7 @@ export const products: Product[] = [
     category: "Electronics",
     images: [
       "https://images.unsplash.com/photo-1649859394657-c2c6137e9a8e?w=600&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1588421357575-934ad502cfbb?w=600&h=600&fit=crop",
     ],
     description: "Flagship earbuds with Adaptive ANC, Bluetooth 5.3, spatial audio, 8 hours playback, 32 hours with case, IPX7 water resistance, wireless charging, and studio-quality sound.",
     stock_quantity: 68,
@@ -298,12 +322,14 @@ export const products: Product[] = [
     category: "Books",
     images: [
       "https://images.unsplash.com/photo-1544947950-fa07a98d237f?w=600&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=600&h=600&fit=crop",
     ],
     description: "F. Scott Fitzgerald's masterpiece about the American Dream in the Jazz Age. A classic novel of love, wealth, and tragedy.",
     stock_quantity: 150,
     rating: 4.7,
     reviews_count: 892,
     badge: "classic",
+    environmentalImpact: 78, // High score for books - recyclable, long-lasting, shareable
   },
   {
     id: "19",
@@ -312,12 +338,14 @@ export const products: Product[] = [
     category: "Books",
     images: [
       "https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=600&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1495446815901-a7297e633e8d?w=600&h=600&fit=crop",
     ],
     description: "Harper Lee's unforgettable novel of racial injustice and childhood innocence in the American South.",
     stock_quantity: 120,
     rating: 4.8,
     reviews_count: 1245,
     badge: "classic",
+    environmentalImpact: 80, // High score for classic literature - timeless and shareable
   },
   {
     id: "20",
@@ -325,13 +353,15 @@ export const products: Product[] = [
     price: 399,
     category: "Books",
     images: [
-      "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1513475382585-d06e58bcb0e0?w=600&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1589998059171-988d887df646?w=600&h=600&fit=crop",
     ],
     description: "George Orwell's dystopian masterpiece about totalitarianism and surveillance. More relevant today than ever.",
     stock_quantity: 200,
     rating: 4.6,
     reviews_count: 1567,
     badge: "bestseller",
+    environmentalImpact: 79, // High score for influential literature that raises awareness
   },
   {
     id: "21",
@@ -339,7 +369,8 @@ export const products: Product[] = [
     price: 329,
     category: "Books",
     images: [
-      "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1532012197267-da84d127e765?w=600&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1513475382585-d06e58bcb0e0?w=600&h=600&fit=crop",
     ],
     description: "Jane Austen's romantic novel about Elizabeth Bennet and Mr. Darcy. A timeless tale of love and social class.",
     stock_quantity: 95,
@@ -354,6 +385,7 @@ export const products: Product[] = [
     category: "Books",
     images: [
       "https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=600&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1544947950-fa07a98d237f?w=600&h=600&fit=crop",
     ],
     description: "J.D. Salinger's iconic novel of teenage rebellion and alienation in post-war America.",
     stock_quantity: 110,
@@ -367,7 +399,8 @@ export const products: Product[] = [
     price: 599,
     category: "Books",
     images: [
-      "https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=600&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1513475382585-d06e58bcb0e0?w=600&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1589998059171-988d887df646?w=600&h=600&fit=crop",
     ],
     description: "J.K. Rowling's magical first book in the beloved Harry Potter series. The beginning of an epic adventure.",
     stock_quantity: 250,
@@ -381,7 +414,8 @@ export const products: Product[] = [
     price: 449,
     category: "Books",
     images: [
-      "https://images.unsplash.com/photo-1544947950-fa07a98d237f?w=600&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1532012197267-da84d127e765?w=600&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1513475382585-d06e58bcb0e0?w=600&h=600&fit=crop",
     ],
     description: "J.R.R. Tolkien's classic fantasy adventure of Bilbo Baggins and the dragon Smaug. A journey into Middle-earth.",
     stock_quantity: 180,
@@ -395,7 +429,8 @@ export const products: Product[] = [
     price: 549,
     category: "Books",
     images: [
-      "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1589998059171-988d887df646?w=600&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1513475382585-d06e58bcb0e0?w=600&h=600&fit=crop",
     ],
     description: "Dan Brown's thrilling mystery thriller following Robert Langdon's quest to uncover ancient secrets.",
     stock_quantity: 140,
@@ -409,7 +444,8 @@ export const products: Product[] = [
     price: 399,
     category: "Books",
     images: [
-      "https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=600&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1532012197267-da84d127e765?w=600&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1589998059171-988d887df646?w=600&h=600&fit=crop",
     ],
     description: "Paulo Coelho's inspirational fable about following your dreams and finding your personal legend.",
     stock_quantity: 220,
@@ -423,7 +459,8 @@ export const products: Product[] = [
     price: 429,
     category: "Books",
     images: [
-      "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1513475382585-d06e58bcb0e0?w=600&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1532012197267-da84d127e765?w=600&h=600&fit=crop",
     ],
     description: "Aldous Huxley's dystopian vision of a future society driven by technology and conditioning.",
     stock_quantity: 85,
@@ -437,7 +474,8 @@ export const products: Product[] = [
     price: 899,
     category: "Books",
     images: [
-      "https://images.unsplash.com/photo-1544947950-fa07a98d237f?w=600&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1589998059171-988d887df646?w=600&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1513475382585-d06e58bcb0e0?w=600&h=600&fit=crop",
     ],
     description: "J.R.R. Tolkien's epic fantasy trilogy in one volume. The ultimate battle between good and evil in Middle-earth.",
     stock_quantity: 75,
@@ -451,7 +489,8 @@ export const products: Product[] = [
     price: 359,
     category: "Books",
     images: [
-      "https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=600&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1532012197267-da84d127e765?w=600&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1589998059171-988d887df646?w=600&h=600&fit=crop",
     ],
     description: "Emily Brontë's passionate tale of love and revenge on the Yorkshire moors. A Gothic masterpiece.",
     stock_quantity: 90,
@@ -465,7 +504,8 @@ export const products: Product[] = [
     price: 499,
     category: "Books",
     images: [
-      "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1513475382585-d06e58bcb0e0?w=600&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1532012197267-da84d127e765?w=600&h=600&fit=crop",
     ],
     description: "Suzanne Collins' dystopian adventure of Katniss Everdeen in the deadly Hunger Games arena.",
     stock_quantity: 160,
@@ -479,7 +519,8 @@ export const products: Product[] = [
     price: 529,
     category: "Books",
     images: [
-      "https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=600&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1589998059171-988d887df646?w=600&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1513475382585-d06e58bcb0e0?w=600&h=600&fit=crop",
     ],
     description: "Khaled Hosseini's powerful story of friendship, betrayal, and redemption in Afghanistan.",
     stock_quantity: 105,
@@ -493,7 +534,8 @@ export const products: Product[] = [
     price: 459,
     category: "Books",
     images: [
-      "https://images.unsplash.com/photo-1544947950-fa07a98d237f?w=600&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1532012197267-da84d127e765?w=600&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1589998059171-988d887df646?w=600&h=600&fit=crop",
     ],
     description: "Yann Martel's magical story of a boy stranded on a lifeboat with a Bengal tiger. A tale of survival and faith.",
     stock_quantity: 125,
@@ -507,7 +549,8 @@ export const products: Product[] = [
     price: 479,
     category: "Books",
     images: [
-      "https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=600&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1513475382585-d06e58bcb0e0?w=600&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1532012197267-da84d127e765?w=600&h=600&fit=crop",
     ],
     description: "Markus Zusak's unforgettable story of a young girl in Nazi Germany who finds solace in stealing books.",
     stock_quantity: 95,
@@ -521,7 +564,8 @@ export const products: Product[] = [
     price: 449,
     category: "Books",
     images: [
-      "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1589998059171-988d887df646?w=600&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1513475382585-d06e58bcb0e0?w=600&h=600&fit=crop",
     ],
     description: "John Green's heartbreaking love story of two teenagers with cancer who find love and meaning.",
     stock_quantity: 180,
@@ -535,7 +579,8 @@ export const products: Product[] = [
     price: 519,
     category: "Books",
     images: [
-      "https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=600&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1532012197267-da84d127e765?w=600&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1589998059171-988d887df646?w=600&h=600&fit=crop",
     ],
     description: "Gillian Flynn's psychological thriller about a marriage gone terribly wrong and the secrets that emerge.",
     stock_quantity: 130,
@@ -549,7 +594,8 @@ export const products: Product[] = [
     price: 569,
     category: "Books",
     images: [
-      "https://images.unsplash.com/photo-1544947950-fa07a98d237f?w=600&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1513475382585-d06e58bcb0e0?w=600&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1532012197267-da84d127e765?w=600&h=600&fit=crop",
     ],
     description: "Stieg Larsson's gripping Scandinavian thriller featuring Lisbeth Salander and Mikael Blomkvist.",
     stock_quantity: 85,
@@ -563,7 +609,8 @@ export const products: Product[] = [
     price: 539,
     category: "Books",
     images: [
-      "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1589998059171-988d887df646?w=600&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1513475382585-d06e58bcb0e0?w=600&h=600&fit=crop",
     ],
     description: "Andy Weir's science fiction survival story of an astronaut stranded on Mars. A tale of ingenuity and hope.",
     stock_quantity: 115,
@@ -574,10 +621,11 @@ export const products: Product[] = [
   {
     id: "38",
     name: "Ready Player One",
-    price: 529,
+    price: 499,
     category: "Books",
     images: [
-      "https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=600&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1532012197267-da84d127e765?w=600&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1589998059171-988d887df646?w=600&h=600&fit=crop",
     ],
     description: "Ernest Cline's dystopian adventure in a virtual reality world where a young man hunts for an Easter egg.",
     stock_quantity: 145,

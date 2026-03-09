@@ -11,6 +11,7 @@ import {
   Minus,
   Plus,
   ChevronLeft,
+  Leaf,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ProductCard } from "@/components/product/ProductCard";
@@ -24,6 +25,24 @@ const ProductDetail = () => {
   const [selectedImage, setSelectedImage] = useState(0);
 
   const product = products.find((p) => p.id === id);
+
+  // Function to determine environmental impact color
+  const getEnvironmentalImpactColor = (score?: number) => {
+    if (!score) return "text-gray-500";
+    if (score >= 80) return "text-green-600";
+    if (score >= 60) return "text-yellow-600";
+    if (score >= 40) return "text-orange-600";
+    return "text-red-600";
+  };
+
+  // Function to determine environmental impact label
+  const getEnvironmentalImpactLabel = (score?: number) => {
+    if (!score) return "";
+    if (score >= 80) return "Excellent";
+    if (score >= 60) return "Good";
+    if (score >= 40) return "Moderate";
+    return "Low";
+  };
 
   if (!product) {
     return (
@@ -148,6 +167,26 @@ const ProductDetail = () => {
                 {product.rating} ({product.reviews_count} reviews)
               </span>
             </div>
+
+            {/* Environmental Impact */}
+            {product.environmentalImpact && (
+              <div className="mb-6 flex items-center gap-3 rounded-lg bg-muted/50 p-3">
+                <Leaf className={`h-5 w-5 ${getEnvironmentalImpactColor(product.environmentalImpact)}`} />
+                <div>
+                  <div className="flex items-center gap-2">
+                    <span className={`font-semibold ${getEnvironmentalImpactColor(product.environmentalImpact)}`}>
+                      Environmental Impact Score
+                    </span>
+                    <span className={`text-lg font-bold ${getEnvironmentalImpactColor(product.environmentalImpact)}`}>
+                      {product.environmentalImpact}/100
+                    </span>
+                  </div>
+                  <span className={`text-sm ${getEnvironmentalImpactColor(product.environmentalImpact)}`}>
+                    {getEnvironmentalImpactLabel(product.environmentalImpact)} environmental rating
+                  </span>
+                </div>
+              </div>
+            )}
 
             {/* Price */}
             <div className="mb-6 flex items-baseline gap-3">

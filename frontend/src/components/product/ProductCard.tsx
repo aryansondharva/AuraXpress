@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
-import { Star, ShoppingCart, Heart } from "lucide-react";
+import { Star, ShoppingCart, Heart, Leaf } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Product } from "@/types/product";
 import { formatPrice } from "@/data/products";
@@ -18,6 +18,25 @@ export function ProductCard({ product, index = 0 }: ProductCardProps) {
     new: "bg-blue-500",
     sale: "bg-destructive",
     bestseller: "bg-success",
+    classic: "bg-purple-500",
+  };
+
+  // Function to determine environmental impact color
+  const getEnvironmentalImpactColor = (score?: number) => {
+    if (!score) return "text-gray-500";
+    if (score >= 80) return "text-green-600";
+    if (score >= 60) return "text-yellow-600";
+    if (score >= 40) return "text-orange-600";
+    return "text-red-600";
+  };
+
+  // Function to determine environmental impact label
+  const getEnvironmentalImpactLabel = (score?: number) => {
+    if (!score) return "";
+    if (score >= 80) return "Excellent";
+    if (score >= 60) return "Good";
+    if (score >= 40) return "Moderate";
+    return "Low";
   };
 
   return (
@@ -83,7 +102,7 @@ export function ProductCard({ product, index = 0 }: ProductCardProps) {
         </Link>
 
         {/* Rating */}
-        <div className="mb-3 flex items-center gap-1">
+        <div className="mb-2 flex items-center gap-1">
           <div className="flex items-center gap-0.5">
             {Array.from({ length: 5 }).map((_, i) => (
               <Star
@@ -100,6 +119,21 @@ export function ProductCard({ product, index = 0 }: ProductCardProps) {
             ({product.reviews_count})
           </span>
         </div>
+
+        {/* Environmental Impact Score */}
+        {product.environmentalImpact && (
+          <div className="mb-3 flex items-center gap-2">
+            <div className="flex items-center gap-1">
+              <Leaf className={`h-3.5 w-3.5 ${getEnvironmentalImpactColor(product.environmentalImpact)}`} />
+              <span className={`text-xs font-medium ${getEnvironmentalImpactColor(product.environmentalImpact)}`}>
+                Eco Score: {product.environmentalImpact}/100
+              </span>
+            </div>
+            <span className={`text-xs ${getEnvironmentalImpactColor(product.environmentalImpact)}`}>
+              ({getEnvironmentalImpactLabel(product.environmentalImpact)})
+            </span>
+          </div>
+        )}
 
         {/* Price */}
         <div className="mt-auto flex items-center gap-2">
