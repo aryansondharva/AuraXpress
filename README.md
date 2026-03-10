@@ -1,3 +1,10 @@
+This project focuses on developing a web and mobile application for Municipal Corporation services. The platform will help citizens easily report issues such as garbage collection, road damage, water supply problems, and street light faults. Users can upload complaints, track their status, and receive updates from the municipal authority. The system will also help officials manage and resolve complaints efficiently. The main goal of this project is to improve communication between citizens and the Municipal Corporation and support the development of a clean and smart city.
+
+
+
+
+
+
 # AuraExpress - E-commerce Platform
 
 A full-stack e-commerce platform built with React, Node.js, Express, and PostgreSQL.
