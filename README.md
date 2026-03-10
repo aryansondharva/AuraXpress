@@ -1,5 +1,6 @@
-This project focuses on developing a web and mobile application for Municipal Corporation services. The platform will help citizens easily report issues such as garbage collection, road damage, water supply problems, and street light faults. Users can upload complaints, track their status, and receive updates from the municipal authority. The system will also help officials manage and resolve complaints efficiently. The main goal of this project is to improve communication between citizens and the Municipal Corporation and support the development of a clean and smart city.
-
+This project aims to develop a web and mobile application for improving communication between citizens and the Municipal Corporation. The platform will allow citizens to easily report civic issues such as garbage collection problems, damaged roads, water supply issues, drainage blockage, and street light failures. Users will be able to submit complaints, upload photos, and track the status of their requests in real time.
+The application will also help municipal authorities manage complaints efficiently by organizing them according to location, category, and priority. Officials can assign tasks to workers and update the progress of problem resolution through the system.
+The main objective of this project is to make municipal services more transparent, efficient, and accessible. By using technology, the system will reduce response time, improve service management, and encourage citizen participation. Ultimately, the project will support the development of a cleaner, smarter, and better managed city.
 
 
 
